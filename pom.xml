@@ -1,0 +1,18 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>es.uv.bjtwcam</groupId>
+  <artifactId>BJ-TWCAM</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>BJ-TWCAM</name>
+  <description>Proyecto combinado de tres materias para el máster TWCAM Tecnologías Web, Computación en la nube y Aplicaciones Móviles</description>
+   <modules>
+     <module>colas</module>
+     <module>consumidores</module>
+     <module>productores</module>
+     <module>validadores</module>
+  </modules>
+  <properties>
+	<java.version>17</java.version>
+  </properties>
+</project>
