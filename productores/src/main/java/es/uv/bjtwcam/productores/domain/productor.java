@@ -9,8 +9,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="productores")
-public class productor {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Productor {
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private Integer id;
 
     @Column(nullable=false, length=9, unique=true)
