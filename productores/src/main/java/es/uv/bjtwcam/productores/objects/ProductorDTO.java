@@ -83,7 +83,7 @@ public class ProductorDTO implements Serializable {
     public float getCuota() {
         return cuota;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -107,6 +107,7 @@ public class ProductorDTO implements Serializable {
             this.getEstado(),
             this.getCuota(),
             this.getEmail(), 
-            this.getPassword());
+            this.getPassword()
+        );
     }
 }
