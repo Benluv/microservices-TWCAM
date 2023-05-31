@@ -2,7 +2,7 @@ package es.uv.bjtwcam.validadores.objects;
 
 import java.io.Serializable;
 
-public class VilidadorDTO implements Serializable {
+public class ValidadorDTO implements Serializable {
     
     private static final long serialVersionUID = 1L;
     private String id;
@@ -10,10 +10,10 @@ public class VilidadorDTO implements Serializable {
     private String email;
     private String password;
 
-    public VilidadorDTO() {
+    public ValidadorDTO() {
     }
 
-    public VilidadorDTO(String id, String nombre, String email, String password) {
+    public ValidadorDTO(String id, String nombre, String email, String password) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
