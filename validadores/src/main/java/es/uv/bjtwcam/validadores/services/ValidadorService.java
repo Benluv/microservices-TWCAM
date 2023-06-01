@@ -6,4 +6,24 @@ public class ValidadorService {
     public Flux<Productor> getProductores() {
         return Flux.just(new Productor());
     }
+
+    public Flux<Productor> aprobarProductor() {
+        return Flux.just(new Productor());
+    }
+
+    public Flux<Productor> updateProductor() {
+        return Flux.just(new Productor());
+    }
+
+    public Flux<Productor> deleteProductor() {
+        return Flux.just(new Productor());
+    }
+
+    public Flux<Productor> getFicheros() {
+        return Flux.just(new Productor());
+    }
+
+    public Flux<Productor> publicarFichero() {
+        return Flux.just(new Productor());
+    }
 }

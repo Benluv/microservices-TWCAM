@@ -3,6 +3,8 @@ package es.uv.bjtwcam.productores.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,9 +35,34 @@ public class RegistroController {
         LOGGER.debug("Actualizando productor: {}", productor);
         return this.ps.updateProductor(productor);
     }
+
+    @PostMapping("productor/file")
+    public Mono<Productor> uploadFile(@RequestBody Productor productor) {
+        LOGGER.debug("Subiendo fichero: {}", productor);
+        return this.ps.uploadFile(productor);
+    }
+
+    @GetMapping("productor")
+    public Flux<Productor> getProductores() {
+        LOGGER.debug("Obteniendo productores");
+        return this.ps.getProductores();
+    }
+
+    @PutMapping("productor/file/{id}")
+    public Mono<Productor> updateFile(@RequestBody Productor productor) {
+        LOGGER.debug("Actualizando fichero: {}", productor);
+        return this.ps.updateFile(productor);
+    }
+
+    @DeleteMapping("productor/file/{id}")
+    public Mono<Productor> deleteFile(@RequestBody Productor productor) {
+        LOGGER.debug("Eliminando fichero: {}", productor);
+        return this.ps.deleteFile(productor);
+    }
 }
 
 /*
+--------------------------- PRODUCTORES ---------------------------
 Solicitud de registro de un nuevo productor (No Auth)
 POST http://127.0.0.1:puerto/api/v1/productor
 
