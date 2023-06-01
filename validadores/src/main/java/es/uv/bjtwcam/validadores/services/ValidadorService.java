@@ -26,12 +26,12 @@ public class ValidadorService {
         return vr.save(productor);
     }
 
-    public Flux<Productor> updateProductor() {
-        return Flux.just(new Productor());
+    public Mono<Productor> updateProductor(Productor productor) {
+        return vr.update(productor);
     }
 
-    public Flux<Productor> deleteProductor() {
-        return Flux.just(new Productor());
+    public void deleteProductor(Productor productor) {
+        vr.delete(productor);
     }
 
     public Flux<Productor> getFicheros() {
@@ -42,7 +42,7 @@ public class ValidadorService {
         return Flux.just(new Productor());
     }
 
-    public Mono<Productor> findById(UUID id) {
-        return vr.findById(id);
+    public Mono<Productor> findByNif(String nif) {
+        return vr.findByNif(nif);
     }
 }

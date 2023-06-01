@@ -32,42 +32,52 @@ public class ValidarController {
         return this.vs.findAll();
     }
 
-    @PutMapping("validador/aprobar/{id}")
-    public ResponseEntity<Mono<Productor>> aprobarProductor(@PathVariable("id") String id) {
-        UUID id_ = null;
-        //check if id is valid UUID
-        try {
-            LOGGER.info("Buscando productor por id: {}", id);
-            id_ = UUID.fromString(id);
-        } catch (IllegalArgumentException e) {
-            LOGGER.error("Error al convertir el id a UUID");
-            return ResponseEntity.badRequest().build();
-        }
+    @PutMapping("validador/aprobar/{nif}")
+    public ResponseEntity<Mono<Productor>> aprobarProductor(@PathVariable("nif") String nif) {
         //check if id exists
-        if (vs.findById(id_).block() == null) {
-            LOGGER.error("No existe el productor con id: {}", id);
+        Mono<Productor> p = vs.findByNif(nif);
+        if (p == null) {
+            LOGGER.error("No existe el productor con nif: {}", nif);
             return ResponseEntity.notFound().build();
         }
 
         LOGGER.debug("Aprobando productor");
-        Mono<Productor> p = vs.findById(id_);
         p.subscribe(productor -> {
-            productor.setApproved();
             vs.aprobarProductor(productor);
         });
         return ResponseEntity.ok(p);
     }
 
-    @PutMapping("validador/{id}")
-    public Flux<Productor> updateProductor() {
+    @PutMapping("validador/{nif}")
+    public ResponseEntity<Mono<Productor>> updateProductor(@PathVariable("nif") String nif) {
+        //check if id exists
+        Mono<Productor> p = vs.findByNif(nif);
+        if (p == null) {
+            LOGGER.error("No existe el productor con nif: {}", nif);
+            return ResponseEntity.notFound().build();
+        }
+
         LOGGER.debug("Actualizando productor");
-        return this.vs.updateProductor();
+        p.subscribe(productor -> {
+            vs.updateProductor(productor);
+        });
+        return ResponseEntity.ok(p);
     }
 
-    @DeleteMapping("validador/{id}")
-    public Flux<Productor> deleteProductor() {
+    @DeleteMapping("validador/{nif}")
+    public ResponseEntity<Mono<String>> deleteProductor(@PathVariable("nif") String nif) {
+        //check if id exists
+        Mono<Productor> p = vs.findByNif(nif);
+        if (p == null) {
+            LOGGER.error("No existe el productor con nif: {}", nif);
+            return ResponseEntity.notFound().build();
+        }
+        
         LOGGER.debug("Eliminando productor");
-        return this.vs.deleteProductor();
+        p.subscribe(productor -> {
+            vs.deleteProductor(productor);
+        });
+        return ResponseEntity.ok(Mono.just("Productor eliminado"));
     }
 
     @GetMapping("validador/file")

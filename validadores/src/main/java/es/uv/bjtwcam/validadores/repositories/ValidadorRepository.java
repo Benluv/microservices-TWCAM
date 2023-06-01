@@ -1,7 +1,5 @@
 package es.uv.bjtwcam.validadores.repositories;
 
-import java.util.UUID;
-
 // import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
@@ -11,6 +9,9 @@ import reactor.core.publisher.Mono;
 
 public interface ValidadorRepository extends ReactiveCrudRepository<Productor, Integer>{
     
-    Mono<Productor> findById(UUID id);
+    Mono<Productor> findByNif(String nif);
     Flux<Productor> findAll();
+    Mono<Productor> save(Productor productor);
+    Mono<Void> delete(Productor productor);
+    Mono<Productor> update(Productor productor);
 }
