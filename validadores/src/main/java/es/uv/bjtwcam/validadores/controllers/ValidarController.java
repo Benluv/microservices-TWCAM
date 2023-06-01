@@ -1,10 +1,14 @@
 package es.uv.bjtwcam.validadores.controllers;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.uv.bjtwcam.validadores.services.ValidadorService;
 import es.uv.bjtwcam.productores.domain.Productor;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,13 +29,33 @@ public class ValidarController {
     @GetMapping("validador")
     public Flux<Productor> getProductores() {
         LOGGER.debug("Obteniendo productores");
-        return this.vs.getProductores();
+        return this.vs.findAll();
     }
 
     @PutMapping("validador/aprobar/{id}")
-    public Flux<Productor> aprobarProductor() {
+    public ResponseEntity<Mono<Productor>> aprobarProductor(@PathVariable("id") String id) {
+        UUID id_ = null;
+        //check if id is valid UUID
+        try {
+            LOGGER.info("Buscando productor por id: {}", id);
+            id_ = UUID.fromString(id);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error("Error al convertir el id a UUID");
+            return ResponseEntity.badRequest().build();
+        }
+        //check if id exists
+        if (vs.findById(id_).block() == null) {
+            LOGGER.error("No existe el productor con id: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+
         LOGGER.debug("Aprobando productor");
-        return this.vs.aprobarProductor();
+        Mono<Productor> p = vs.findById(id_);
+        p.subscribe(productor -> {
+            productor.setApproved();
+            vs.aprobarProductor(productor);
+        });
+        return ResponseEntity.ok(p);
     }
 
     @PutMapping("validador/{id}")

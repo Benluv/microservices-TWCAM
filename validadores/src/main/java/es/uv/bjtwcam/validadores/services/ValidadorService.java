@@ -1,20 +1,29 @@
 package es.uv.bjtwcam.validadores.services;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import es.uv.bjtwcam.productores.domain.Productor;
+import es.uv.bjtwcam.validadores.repositories.ValidadorRepository;
 import jakarta.transaction.Transactional;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @Transactional
 public class ValidadorService {
     
-    public Flux<Productor> getProductores() {
-        return Flux.just(new Productor());
+    @Autowired
+    private ValidadorRepository vr;
+
+    public Flux<Productor> findAll() {
+        return vr.findAll();
     }
 
-    public Flux<Productor> aprobarProductor() {
-        return Flux.just(new Productor());
+    public Mono<Productor> aprobarProductor(Productor productor) {
+        productor.setApproved();
+        return vr.save(productor);
     }
 
     public Flux<Productor> updateProductor() {
@@ -31,5 +40,9 @@ public class ValidadorService {
 
     public Flux<Productor> publicarFichero() {
         return Flux.just(new Productor());
+    }
+
+    public Mono<Productor> findById(UUID id) {
+        return vr.findById(id);
     }
 }
