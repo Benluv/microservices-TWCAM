@@ -23,12 +23,12 @@ public class File {
 
     public File() {}
 
-    public File(String title, String description, List<String> keywords, List<Object> data, String filesize) {
+    public File(String title, String filesize, String description, List<String> keywords, List<Object> data) {
         this.title = title;
+        this.filesize = filesize;
         this.description = description;
         this.keywords = keywords;
         this.data = data;
-        this.filesize = filesize;
     }
 	public String getId() {
 		return id;

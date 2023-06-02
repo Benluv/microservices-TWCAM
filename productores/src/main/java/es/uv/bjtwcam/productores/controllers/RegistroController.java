@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/productor")
 @Slf4j
 public class RegistroController {
     
@@ -26,7 +26,7 @@ public class RegistroController {
     @Autowired
     AnalyticsService analyticsService;
 
-    @GetMapping("/productor/{id}")
+    @GetMapping("/{id}")
     @Operation(summary="Obtener productor", description="Obtener la informacion de un productor por su id")
     public String getProductor(@PathVariable(name="id") String id) {
         log.info("getProductor: " + id);
@@ -35,7 +35,7 @@ public class RegistroController {
         return "Se obtiene el productor: "+ id;
     }
 
-    @PostMapping("/productor")
+    @PostMapping()
     @Operation(summary="Crear nuevo productor", description="Solicitud de registro de un nuevo productor (No Auth)")
     public String createProductor(@RequestBody ProductorDTO productor) {
         log.info("createProductor: " + productor);
@@ -44,7 +44,7 @@ public class RegistroController {
         return "Se crea el productor: "+ productor;
     }
 
-    @PutMapping("/productor/{id}")
+    @PutMapping("/{id}")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor")
     public String modifyUser(@PathVariable("id") String id, @RequestBody ProductorDTO productor) {
         log.info("modifyUser: " + id);
