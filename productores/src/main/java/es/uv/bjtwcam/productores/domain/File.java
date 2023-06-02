@@ -5,97 +5,65 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 @Document
 public class File {
 
     @Id
     private String id;
     private String title;
+    private String filesize;
     private String description;
     private List<String> keywords;
-    private List<String> data;
-    private String state;
-    private Integer size;
-    private Integer previews;
-    private Integer downloads;
+    private List<Object> data;
 
     public File() {}
 
-    public File(String title, String description, List<String> keywords, List<String> data, String state, Integer size, Integer previews, Integer downloads) {
+    public File(String title, String description, List<String> keywords, List<Object> data, String filesize) {
         this.title = title;
         this.description = description;
         this.keywords = keywords;
-        this.state = state;
-        this.size = size;
-        this.previews = previews;
-        this.downloads = downloads;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public List<String> getKeywords() {
-        return keywords;
-    }
-
-    public List<String> getData() {
-        return data;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public Integer getPreviews() {
-        return previews;
-    }
-
-    public Integer getDownloads() {
-        return downloads;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
-    }
-
-    public void setData(List<String> data) {
         this.data = data;
+        this.filesize = filesize;
     }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
-    public void setPreviews(Integer previews) {
-        this.previews = previews;
-    }
-
-    public void setDownloads(Integer downloads) {
-        this.downloads = downloads;
-    }
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getFileSize() {
+		return filesize;
+	}
+	public void setFileSize(String filesize) {
+		this.filesize = filesize;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public List<String> getKeywords() {
+		return keywords;
+	}
+	public void setKeywords(List<String> keywords) {
+		this.keywords = keywords;
+	}
+	public List<Object> getData() {
+		return data;
+	}
+	public void setData(List<Object> data) {
+		this.data = data;
+	}
 }
