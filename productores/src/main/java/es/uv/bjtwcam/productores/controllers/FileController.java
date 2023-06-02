@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.uv.bjtwcam.productores.domain.File;
 import es.uv.bjtwcam.productores.services.FileService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,8 @@ public class FileController {
     public int cuotaAnual = 5;
 
 	@PostMapping()
-	public ResponseEntity<File> createPost(@RequestParam MultipartFile file, @RequestParam String title, 
+    @Operation(summary="Crear nuevo fichero para publicar", description="Solicitud de publicacion de un nuevo fichero")
+	public ResponseEntity<File> createFile(@RequestParam MultipartFile file, @RequestParam String title, 
 										   @RequestParam String filesize,
 										   @RequestParam String description, @RequestParam List<String> keywords,
 										   HttpServletRequest request) throws IOException {
@@ -55,6 +57,7 @@ public class FileController {
 	
 	
 	@GetMapping()
+    @Operation(summary="Obtener todos los ficheros", description="Obtener todos los ficheros publicados y pendientes")
 	public ResponseEntity<List<File>> getAll(HttpServletRequest request) {
 		List<File> files = fs.findAll();
 		return new ResponseEntity<>(files, HttpStatus.OK);
