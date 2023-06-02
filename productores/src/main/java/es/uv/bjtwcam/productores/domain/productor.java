@@ -3,6 +3,8 @@ package es.uv.bjtwcam.productores.domain;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,25 +13,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "productores")
+@Table(name = "productor")
 public class Productor implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private Integer id;
 
-    @Column(nullable = false, length = 9, unique = true)
+    @Column(name = "NIF", nullable = false, length = 9, unique = true)
     private String nif;
 
     @Column(nullable = false, length = 50)
-    private String nombre;
+    private String name;
 
     @Column(nullable = false)
-    private Tipo tipo;
+    private Type type;
 
     @Column(nullable = false)
     private Estado estado;
 
-    @Column(nullable = false, name = "cuota_anual")
+    @Column(name="cuotaAnual", nullable = false)
     private float cuota;
 
     @Column(nullable = false)
@@ -46,12 +49,12 @@ public class Productor implements Serializable {
         return nif;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public Tipo getTipo() {
-        return tipo;
+    public Type getType() {
+        return type;
     }
 
     public Estado getEstado() {
@@ -78,12 +81,12 @@ public class Productor implements Serializable {
         this.nif = nif;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setEstado(Estado estado) {
@@ -111,7 +114,7 @@ public class Productor implements Serializable {
         this.password = password;
     }
 
-    public enum Tipo {
+    public enum Type {
         persona {
             public String toString() {
                 return"persona física";
