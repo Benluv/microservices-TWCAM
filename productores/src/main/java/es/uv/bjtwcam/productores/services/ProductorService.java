@@ -38,6 +38,35 @@ public class ProductorService {
         }
             pr.save(productor);
     }
+
+    public Productor getProductorById(String productorId) {
+        return pr.findById(productorId).orElse(null);
+    }
+    
+    public void update(String productorId, ProductorDTO updatedProductor) {
+
+        // Obtener el usuario existente por ID
+        Productor productor = getProductorById(productorId);
+
+        // Actualizar los campos modificables del usuario existente
+        productor.setEmail(updatedProductor.getEmail());
+        String pass = new BCryptPasswordEncoder().encode(updatedProductor.getPassword());
+        productor.setPassword(pass);
+        productor.setName(updatedProductor.getName());
+        productor.setCuotaAnual(updatedProductor.getCuotaAnual());
+        productor.setNIF(updatedProductor.getNIF());
+        productor.setType(updatedProductor.getType());
+
+        if (! productor.getEstado().isEmpty()|| !productor.getEstado().equals("Pending")|| 
+        !productor.getEstado().equals("Activo") ||
+        !productor.getEstado().equals("Inactivo")   
+        ) {
+            productor.setEstado("Pending");
+        } else {
+            productor.setEstado(productor.getEstado());
+        }
+        pr.save(productor);
+    }
     
     // public Mono<Productor> createProductor(Productor productor) {
     //     return Mono.just(productor);
