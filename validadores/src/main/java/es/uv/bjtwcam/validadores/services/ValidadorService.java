@@ -1,4 +1,5 @@
 package es.uv.bjtwcam.validadores.services;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -17,32 +18,32 @@ public class ValidadorService {
     @Autowired
     private ValidadorRepository vr;
 
-    public Flux<Productor> findAll() {
+    public List<Productor> findAll() {
         return vr.findAll();
     }
 
-    public Mono<Productor> aprobarProductor(Productor productor) {
-        productor.setApproved();
-        return vr.save(productor);
-    }
+    // public Mono<Productor> aprobarProductor(Productor productor) {
+    //     productor.setApproved();
+    //     return vr.save(productor);
+    // }
 
-    public Mono<Productor> updateProductor(Productor productor) {
-        return vr.update(productor);
-    }
+    // public Mono<Productor> updateProductor(Productor productor) {
+    //     return vr.update(productor);
+    // }
 
-    public void deleteProductor(Productor productor) {
-        vr.delete(productor);
-    }
+    // public void deleteProductor(Productor productor) {
+    //     vr.delete(productor);
+    // }
 
-    public Flux<Productor> getFicheros() {
-        return Flux.just(new Productor());
-    }
+    // public Flux<Productor> getFicheros() {
+    //     return Flux.just(new Productor());
+    // }
 
-    public Flux<Productor> publicarFichero() {
-        return Flux.just(new Productor());
-    }
+    // public Flux<Productor> publicarFichero() {
+    //     return Flux.just(new Productor());
+    // }
 
-    public Mono<Productor> findByNif(String nif) {
-        return vr.findByNif(nif);
-    }
+    // public Mono<Productor> findByNif(String nif) {
+    //     return vr.findByNif(nif);
+    // }
 }

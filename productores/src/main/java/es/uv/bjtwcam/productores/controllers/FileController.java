@@ -55,7 +55,6 @@ public class FileController {
 		
 	} 
 	
-	
 	@GetMapping()
     @Operation(summary="Obtener todos los ficheros", description="Obtener todos los ficheros publicados y pendientes")
 	public ResponseEntity<List<File>> getAll(HttpServletRequest request) {

@@ -1,5 +1,6 @@
 package es.uv.bjtwcam.validadores.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -27,70 +28,70 @@ public class ValidarController {
     private ValidadorService vs;
 
     @GetMapping("validador")
-    public Flux<Productor> getProductores() {
+    public List<Productor> getProductores() {
         LOGGER.debug("Obteniendo productores");
         return this.vs.findAll();
     }
 
-    @PutMapping("validador/aprobar/{nif}")
-    public ResponseEntity<Mono<Productor>> aprobarProductor(@PathVariable("nif") String nif) {
-        //check if id exists
-        Mono<Productor> p = vs.findByNif(nif);
-        if (p == null) {
-            LOGGER.error("No existe el productor con nif: {}", nif);
-            return ResponseEntity.notFound().build();
-        }
+    // @PutMapping("validador/aprobar/{nif}")
+    // public ResponseEntity<Mono<Productor>> aprobarProductor(@PathVariable("nif") String nif) {
+    //     //check if id exists
+    //     Mono<Productor> p = vs.findByNif(nif);
+    //     if (p == null) {
+    //         LOGGER.error("No existe el productor con nif: {}", nif);
+    //         return ResponseEntity.notFound().build();
+    //     }
 
-        LOGGER.debug("Aprobando productor");
-        p.subscribe(productor -> {
-            vs.aprobarProductor(productor);
-        });
-        return ResponseEntity.ok(p);
-    }
+    //     LOGGER.debug("Aprobando productor");
+    //     p.subscribe(productor -> {
+    //         vs.aprobarProductor(productor);
+    //     });
+    //     return ResponseEntity.ok(p);
+    // }
 
-    @PutMapping("validador/{nif}")
-    public ResponseEntity<Mono<Productor>> updateProductor(@PathVariable("nif") String nif) {
-        //check if id exists
-        Mono<Productor> p = vs.findByNif(nif);
-        if (p == null) {
-            LOGGER.error("No existe el productor con nif: {}", nif);
-            return ResponseEntity.notFound().build();
-        }
+    // @PutMapping("validador/{nif}")
+    // public ResponseEntity<Mono<Productor>> updateProductor(@PathVariable("nif") String nif) {
+    //     //check if id exists
+    //     Mono<Productor> p = vs.findByNif(nif);
+    //     if (p == null) {
+    //         LOGGER.error("No existe el productor con nif: {}", nif);
+    //         return ResponseEntity.notFound().build();
+    //     }
 
-        LOGGER.debug("Actualizando productor");
-        p.subscribe(productor -> {
-            vs.updateProductor(productor);
-        });
-        return ResponseEntity.ok(p);
-    }
+    //     LOGGER.debug("Actualizando productor");
+    //     p.subscribe(productor -> {
+    //         vs.updateProductor(productor);
+    //     });
+    //     return ResponseEntity.ok(p);
+    // }
 
-    @DeleteMapping("validador/{nif}")
-    public ResponseEntity<Mono<String>> deleteProductor(@PathVariable("nif") String nif) {
-        //check if id exists
-        Mono<Productor> p = vs.findByNif(nif);
-        if (p == null) {
-            LOGGER.error("No existe el productor con nif: {}", nif);
-            return ResponseEntity.notFound().build();
-        }
+    // @DeleteMapping("validador/{nif}")
+    // public ResponseEntity<Mono<String>> deleteProductor(@PathVariable("nif") String nif) {
+    //     //check if id exists
+    //     Mono<Productor> p = vs.findByNif(nif);
+    //     if (p == null) {
+    //         LOGGER.error("No existe el productor con nif: {}", nif);
+    //         return ResponseEntity.notFound().build();
+    //     }
         
-        LOGGER.debug("Eliminando productor");
-        p.subscribe(productor -> {
-            vs.deleteProductor(productor);
-        });
-        return ResponseEntity.ok(Mono.just("Productor eliminado"));
-    }
+    //     LOGGER.debug("Eliminando productor");
+    //     p.subscribe(productor -> {
+    //         vs.deleteProductor(productor);
+    //     });
+    //     return ResponseEntity.ok(Mono.just("Productor eliminado"));
+    // }
 
-    @GetMapping("validador/file")
-    public Flux<Productor> getFicheros() {
-        LOGGER.debug("Obteniendo ficheros");
-        return this.vs.getFicheros();
-    }
+    // @GetMapping("validador/file")
+    // public Flux<Productor> getFicheros() {
+    //     LOGGER.debug("Obteniendo ficheros");
+    //     return this.vs.getFicheros();
+    // }
 
-    @PutMapping("validador/file/{id}")
-    public Flux<Productor> publicarFichero() {
-        LOGGER.debug("Publicando fichero");
-        return this.vs.publicarFichero();
-    }
+    // @PutMapping("validador/file/{id}")
+    // public Flux<Productor> publicarFichero() {
+    //     LOGGER.debug("Publicando fichero");
+    //     return this.vs.publicarFichero();
+    // }
 }
 
 /*

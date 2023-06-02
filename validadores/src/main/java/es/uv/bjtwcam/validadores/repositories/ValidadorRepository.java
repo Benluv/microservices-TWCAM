@@ -1,17 +1,15 @@
 package es.uv.bjtwcam.validadores.repositories;
 
-// import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import java.util.List;
+import java.util.Optional;
 
 import es.uv.bjtwcam.productores.domain.Productor;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-public interface ValidadorRepository extends ReactiveCrudRepository<Productor, Integer>{
+public interface ValidadorRepository extends JPARepository<Productor, String>{
     
-    Mono<Productor> findByNif(String nif);
-    Flux<Productor> findAll();
-    Mono<Productor> save(Productor productor);
-    Mono<Void> delete(Productor productor);
-    Mono<Productor> update(Productor productor);
+    Optional<Productor> findByNif(String nif);
+    List<Productor> findAll();
+    Optional<Productor> save(Productor productor);
+    Optional<Void> delete(Productor productor);
+    Optional<Productor> update(Productor productor);
 }
