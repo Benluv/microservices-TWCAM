@@ -11,9 +11,15 @@ import es.uv.bjtwcam.productores.domain.FileSQL;
 import es.uv.bjtwcam.productores.repositories.FileMongoRepository;
 import es.uv.bjtwcam.productores.repositories.FileSQLRepository;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
 @Service
 public class FileService {
     
+	private final String FILE_COLLECTION = "files";
+
+	@Autowired 
+	MongoTemplate mongoTemplate;
+
     @Autowired
     private FileMongoRepository fr;
 
@@ -25,7 +31,7 @@ public class FileService {
     }
 
     public List<FileSQL> findAllByStatus(String status) {
-        return this.fsr.findAllByStatus(status);
+        return this.fsr.findAllByfileStatus(status);
     }
 
     public File create(File file) {
@@ -50,8 +56,8 @@ public class FileService {
         this.fr.saveAll(posts);
     }
 
-    public void update(FileSQL file) {
-        this.fsr.update(file);
+    public void save(FileSQL file) {
+        this.fsr.save(file);
     }
 
     public File findFileById(String id) {
@@ -72,7 +78,7 @@ public class FileService {
 		file.setData(data);
         
 		File fileMongo = fr.save(file);
-		//File fileMongo2= mongoTemplate.insert(file, FILE_COLLECTION);
+		File fileMongo2= mongoTemplate.insert(file, FILE_COLLECTION);
 
 
 		FileSQL filesql = new FileSQL();

@@ -16,25 +16,22 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "productor")
-public class Productor implements Serializable {
+public class Productor {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
-    private Integer id;
+    private String id;
 
-    @Column(name = "NIF", nullable = false, length = 9, unique = true)
+    @Column(name = "NIF")
     private String NIF;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column()
     private String type;
 
-    @Column(nullable = false)
-    private String estado;
-
-    @Column(name="cuotaAnual", nullable = false)
+    @Column()
     private String cuotaAnual;
 
     @Column(nullable = false)
@@ -42,6 +39,9 @@ public class Productor implements Serializable {
 
     @Column(nullable = false)
     private String password;
+    
+    @Column()
+    private String estado;
 
     /* ENUM FOR TYPE. STRING USED INSTEAD
     public enum Types {
@@ -85,12 +85,6 @@ public class Productor implements Serializable {
     }
     */
     public void setApproved() {
-        // //get names from estado
-        // String[] estados = Estado.getNames(Estado.class);
-        // //check if estado is pendiente
-        // if (this.estado == Estado.valueOf(estados[0]))
-        //     //set estado to activo
-        //     this.estado = Estado.valueOf(estados[1]);
         if (this.getEstado().equals("pendiente") || this.getEstado().equals("pendiente de Aprobación"))
             this.setEstado("activo");
     }

@@ -10,6 +10,6 @@ import es.uv.bjtwcam.productores.domain.FileSQL;
 @Repository
 public interface FileSQLRepository extends JpaRepository<FileSQL, String> {
 
-    List<FileSQL> findAllByStatus(String status);
-    void update(FileSQL file);
+    List<FileSQL> findAllByfileStatus(String status);
+    // void update(FileSQL file);
 }

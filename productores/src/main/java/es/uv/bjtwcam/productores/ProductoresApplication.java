@@ -2,6 +2,7 @@ package es.uv.bjtwcam.productores;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "es.uv.bjtwcam.productores")
 @OpenAPIDefinition(
 	info = @Info(
 		title = "Productores API",
