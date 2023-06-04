@@ -25,6 +25,30 @@ public class ValidadorService {
         return vr.findById(id);
     }
 
+    public Productor findByNif(String nif) {
+        return vr.findByNif(nif);
+    }
+
+    public Productor findByName(String name) {
+        return vr.findByName(name);
+    }
+
+    public Productor findByEmail(String email) {
+        return vr.findByEmail(email);
+    }
+
+    public Productor findByType(String type) {
+        return vr.findByType(type);
+    }
+
+    public Productor findByEstado(String estado) {
+        return vr.findByEstado(estado);
+    }
+
+    public Productor findByCuotaAnual(String cuotaAnual) {
+        return vr.findByCuotaAnual(cuotaAnual);
+    }
+
     public Optional<Productor> aprobarProductor(Productor productor) {
         productor.setApproved();
         return vr.save(productor);
@@ -37,24 +61,4 @@ public class ValidadorService {
     public void deleteProductor(Productor productor) {
         vr.delete(productor);
     }
-
-    // public Mono<Productor> updateProductor(Productor productor) {
-    //     return vr.update(productor);
-    // }
-
-    // public void deleteProductor(Productor productor) {
-    //     vr.delete(productor);
-    // }
-
-    // public Flux<Productor> getFicheros() {
-    //     return Flux.just(new Productor());
-    // }
-
-    // public Flux<Productor> publicarFichero() {
-    //     return Flux.just(new Productor());
-    // }
-
-    // public Mono<Productor> findByNif(String nif) {
-    //     return vr.findByNif(nif);
-    // }
 }

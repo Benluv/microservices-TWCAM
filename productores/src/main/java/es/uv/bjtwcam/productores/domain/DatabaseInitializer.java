@@ -30,8 +30,6 @@ public class DatabaseInitializer implements CommandLineRunner {
         productor1.setType("");
         productor1.setEstado("Activo");
 
-
-
         // Guarda los usuarios en la base de datos
         pr.save(productor1);
     }
