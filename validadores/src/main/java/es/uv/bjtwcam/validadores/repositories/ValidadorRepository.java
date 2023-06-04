@@ -2,6 +2,7 @@ package es.uv.bjtwcam.validadores.repositories;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import es.uv.bjtwcam.productores.domain.Productor;
 
@@ -12,4 +13,5 @@ public interface ValidadorRepository extends JPARepository<Productor, String>{
     Optional<Productor> save(Productor productor);
     Optional<Void> delete(Productor productor);
     Optional<Productor> update(Productor productor);
+    Productor findById(UUID id);
 }

@@ -24,6 +24,10 @@ public class FileService {
         return this.fr.findAll();
     }
 
+    public List<FileSQL> findAllByStatus(String status) {
+        return this.fsr.findAllByStatus(status);
+    }
+
     public File create(File file) {
         File fileMongo = fr.save(file);
 
@@ -46,10 +50,17 @@ public class FileService {
         this.fr.saveAll(posts);
     }
 
+    public void update(FileSQL file) {
+        this.fsr.update(file);
+    }
+
     public File findFileById(String id) {
         return this.fr.findById(id).orElse(null);
     }
 
+    public FileSQL findSQLFileById(String id) {
+        return this.fsr.findById(id).orElse(null);
+    }
 
 	public void addDataFileToMongoDB(String title, String filesize,String description, List<String> keywords, List<Object> data) {
 
@@ -73,6 +84,5 @@ public class FileService {
 		
        
 		System.out.println("Se copiara: "+fileMongo.getId()+" "+fileMongo.getTitle()+" "+fileMongo.getFileSize()+" "+fileMongo.getDescription());
-
     }
 }

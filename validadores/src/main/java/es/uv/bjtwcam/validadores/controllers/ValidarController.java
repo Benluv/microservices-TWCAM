@@ -3,8 +3,6 @@ package es.uv.bjtwcam.validadores.controllers;
 import java.util.List;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,22 +13,70 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.uv.bjtwcam.validadores.services.ValidadorService;
+import lombok.extern.slf4j.Slf4j;
 import es.uv.bjtwcam.productores.domain.Productor;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/validador")
+@Slf4j
 public class ValidarController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ValidarController.class);
 
     @Autowired
     private ValidadorService vs;
 
-    @GetMapping("validador")
+    //Obtener listado de productores, si no se indica ningun filtro se devuelven todos
+    @GetMapping()
     public List<Productor> getProductores() {
-        LOGGER.debug("Obteniendo productores");
+        log.info("Obteniendo productores");
         return this.vs.findAll();
+    }
+
+    //Aprobar un nuevo productor
+    //Se indicara el identificador del productor
+    //Se indicara la cuota anual
+    @PutMapping("/aprobar/{id}")
+    public ResponseEntity<Productor> aprobarProductor(@PathVariable("id") UUID id) {
+        //check if id exists
+        Productor p = vs.findById(id);
+        if (p == null) {
+            log.error("No existe el productor con id: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+
+        log.debug("Aprobando productor");
+        vs.aprobarProductor(p);
+        return ResponseEntity.ok(p);
+    }
+    
+    //Modificacion de la informacion de un productor
+    //Se podra actualizar cualquier campo del productor a traves de su identificador
+    @PutMapping("/{id}")
+    public ResponseEntity<Productor> updateProductor(@PathVariable("id") UUID id) {
+        //check if id exists
+        Productor p = vs.findById(id);
+        if (p == null) {
+            log.error("No existe el productor con id: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+
+        log.debug("Actualizando productor");
+        vs.updateProductor(p);
+        return ResponseEntity.ok(p);
+    }
+
+    // Eliminar un productor
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProductor(@PathVariable("id") UUID id) {
+        //check if id exists
+        Productor p = vs.findById(id);
+        if (p == null) {
+            log.error("No existe el productor con id: {}", id);
+            return ResponseEntity.notFound().build();
+        }
+        
+        log.debug("Eliminando productor");
+        vs.deleteProductor(p);
+        return ResponseEntity.ok("Productor eliminado");
     }
 
     // @PutMapping("validador/aprobar/{nif}")

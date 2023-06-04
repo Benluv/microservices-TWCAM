@@ -25,4 +25,8 @@ public class FileSQL {
 
     @Column()
     private String fileDescription;
+
+    public void setStatus(String status) {
+        this.fileStatus = status;
+    }
 }

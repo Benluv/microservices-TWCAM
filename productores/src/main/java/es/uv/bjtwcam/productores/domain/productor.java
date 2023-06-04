@@ -83,14 +83,15 @@ public class Productor implements Serializable {
             return Arrays.stream(e.getEnumConstants()).map(Enum::name).toArray(String[]::new);
         }
     }
-    
-    public void setApproved() {
-        //get names from estado
-        String[] estados = Estado.getNames(Estado.class);
-        //check if estado is pendiente
-        if (this.estado == Estado.valueOf(estados[0]))
-            //set estado to activo
-            this.estado = Estado.valueOf(estados[1]);
-    }
     */
+    public void setApproved() {
+        // //get names from estado
+        // String[] estados = Estado.getNames(Estado.class);
+        // //check if estado is pendiente
+        // if (this.estado == Estado.valueOf(estados[0]))
+        //     //set estado to activo
+        //     this.estado = Estado.valueOf(estados[1]);
+        if (this.getEstado().equals("pendiente") || this.getEstado().equals("pendiente de Aprobación"))
+            this.setEstado("activo");
+    }
 }
