@@ -40,7 +40,8 @@ public class FileController {
             return ResponseEntity.notFound().build();
         }
         f.setStatus("Published");
-        fs.update(f);
+        fs.save(f);
         return ResponseEntity.ok(f);
     }
 }
+
