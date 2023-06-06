@@ -1,0 +1,47 @@
+{"properties": [
+    {
+      "name": "rabbitmq.exchange.name",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.exchange.name'"
+    },
+    {
+      "name": "rabbitmq.queue.name.leve",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.queue.name.leve'"
+    },
+    {
+      "name": "rabbitmq.queue.name.grave",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.queue.name.grave'"
+    },
+    {
+      "name": "rabbitmq.queue.name.critico",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.queue.name.critico'"
+    },
+    {
+      "name": "rabbitmq.routing.key.leve",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.routing.key.leve'"
+    },
+    {
+      "name": "rabbitmq.routing.key.grave",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.routing.key.grave'"
+    },
+    {
+      "name": "rabbitmq.routing.key.critico",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.routing.key.critico'"
+    },
+    {
+      "name": "rabbitmq.queue.name.supervisor",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.queue.name.supervisor'"
+    },
+    {
+      "name": "rabbitmq.routing.key.supervisor",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.routing.key.supervisor'"
+    }
+  ]}
