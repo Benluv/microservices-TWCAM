@@ -7,9 +7,9 @@
   <name>BJ-TWCAM</name>
   <description>Proyecto combinado de tres materias para el máster TWCAM Tecnologías Web, Computación en la nube y Aplicaciones Móviles</description>
    <modules>
+     <module>productores</module>
      <module>colas</module>
      <module>consumidores</module>
-     <module>productores</module>
      <module>validadores</module>
   </modules>
   <properties>

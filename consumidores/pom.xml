@@ -55,7 +55,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>es.uv.bjtwcam</groupId>
+			<groupId>es.uv.bjtwcam.productores</groupId>
 			<artifactId>productores</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
