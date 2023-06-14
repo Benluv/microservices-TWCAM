@@ -1,0 +1,1 @@
+org.springframework.boot.diagnostics.FailureAnalyzer=es.uv.bjtwcam.productores.analyzers.MyCustomAnalyzer, es.uv.bjtwcam.productores.analyzers.BeanCreationAnalyzer

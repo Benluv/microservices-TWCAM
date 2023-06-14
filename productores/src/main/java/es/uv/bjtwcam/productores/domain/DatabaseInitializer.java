@@ -2,6 +2,7 @@ package es.uv.bjtwcam.productores.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import es.uv.bjtwcam.productores.repositories.ProductorRepository;
