@@ -3,6 +3,8 @@ package es.uv.bjtwcam.productores.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import es.uv.bjtwcam.productores.domain.Productor;
 import es.uv.bjtwcam.productores.services.ProductorService;
 import io.swagger.v3.oas.annotations.Operation;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -27,44 +27,44 @@ public class RegistroController {
 
     @PostMapping("productor")
     @Operation(summary="Crear nuevo productor", description="Solicitud de registro de un nuevo productor (No Auth)")
-    public Mono<Productor> createProductor(@RequestBody Productor productor) {
+    public ResponseEntity<Productor> createProductor(@RequestBody Productor productor) {
         LOGGER.debug("Creando productor: {}", productor);
-        return this.ps.createProductor(productor);
+        return ResponseEntity.ok(this.ps.createProductor(productor));
     }
 
     @PutMapping("productor")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor")
-    public Mono<Productor> updateProductor(@RequestBody Productor productor) {
+    public ResponseEntity<Productor> updateProductor(@RequestBody Productor productor) {
         LOGGER.debug("Actualizando productor: {}", productor);
-        return this.ps.updateProductor(productor);
+        return new ResponseEntity<Productor>(this.ps.updateProductor(productor), HttpStatus.OK);
     }
 
     @PostMapping("productor/file")
     @Operation(summary="Subir fichero", description="Subir un fichero de datos")
-    public Mono<Productor> uploadFile(@RequestBody Productor productor) {
+    public ResponseEntity<Productor> uploadFile(@RequestBody Productor productor) {
         LOGGER.debug("Subiendo fichero: {}", productor);
-        return this.ps.uploadFile(productor);
+        return new ResponseEntity<Productor>(this.ps.uploadFile(productor), HttpStatus.OK);
     }
 
     @GetMapping("productor")
     @Operation(summary="Listar ficheros", description="Consultar el listado de ficheros de datos del productor")
-    public Flux<Productor> getProductores() {
+    public ResponseEntity<Productor> getProductores() {
         LOGGER.debug("Obteniendo productores");
-        return this.ps.getProductores();
+        return new ResponseEntity<Productor>(this.ps.getProductores(), HttpStatus.OK);
     }
 
     @PutMapping("productor/file/{id}")
     @Operation(summary="Modificar fichero", description="Modificar la informacion de un fichero de datos del productor")
-    public Mono<Productor> updateFile(@RequestBody Productor productor) {
+    public ResponseEntity<Productor> updateFile(@RequestBody Productor productor) {
         LOGGER.debug("Actualizando fichero: {}", productor);
-        return this.ps.updateFile(productor);
+        return new ResponseEntity<Productor>(this.ps.updateFile(productor), HttpStatus.OK);
     }
 
     @DeleteMapping("productor/file/{id}")
     @Operation(summary="Eliminar fichero", description="Eliminar un fichero de datos del productor")
-    public Mono<Productor> deleteFile(@RequestBody Productor productor) {
+    public ResponseEntity<Productor> deleteFile(@RequestBody Productor productor) {
         LOGGER.debug("Eliminando fichero: {}", productor);
-        return this.ps.deleteFile(productor);
+        return new ResponseEntity<Productor>(this.ps.deleteFile(productor), HttpStatus.OK);
     }
 }
 
