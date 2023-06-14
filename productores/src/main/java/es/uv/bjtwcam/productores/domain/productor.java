@@ -9,8 +9,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "productores")
 public class Productor implements Serializable {
     @Id
@@ -38,58 +40,6 @@ public class Productor implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getNif() {
-        return nif;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public Tipo getTipo() {
-        return tipo;
-    }
-
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public float getCuota() {
-        return cuota;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setNif(String nif) {
-        this.nif = nif;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
-
     public void setApproved() {
         //get names from estado
         String[] estados = Estado.getNames(Estado.class);
@@ -98,19 +48,7 @@ public class Productor implements Serializable {
             //set estado to activo
             this.estado = Estado.valueOf(estados[1]);
     }
-
-    public void setCuota(float cuota) {
-        this.cuota = cuota;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    
     public enum Tipo {
         persona {
             public String toString() {
