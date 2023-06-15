@@ -3,6 +3,8 @@ package es.uv.bjtwcam.productores.domain;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +18,7 @@ import lombok.Data;
 @Table(name = "productores")
 public class Productor implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 9, unique = true)
