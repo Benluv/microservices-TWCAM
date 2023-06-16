@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "productores")
+@Table(name = "productores", schema="portalAyuntDB")
 public class Productor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Productor implements Serializable {
     private Estado estado;
 
     @Column(nullable = false, name = "cuota_anual")
-    private float cuota;
+    private Integer cuota;
 
     @Column(nullable = false)
     private String email;
