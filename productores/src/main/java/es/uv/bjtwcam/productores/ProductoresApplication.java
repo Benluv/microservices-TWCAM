@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 		title = "Productores API",
 		version = "v1",
 		contact = @Contact (
-			name = "Benito Luongo Vegas & Jhon Mora Aguirre", email = "beluonve@alumni.uv.es & jmoa@alumni.uv.es"
+			name = "Benito Luongo Vegas", email = "beluonve@alumni.uv.es"
 		),
 		license = @License(
 			name = "Apache 2.0",
