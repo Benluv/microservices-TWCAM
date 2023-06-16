@@ -5,12 +5,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-// import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 
 import es.uv.bjtwcam.productores.domain.Productor;
 
-public interface ValidadorRepository extends JpaRepository<Productor, String>{
+public interface ValidadorRepository extends JpaRepository<Productor, Integer>{
     
     List<Productor> findAll();
     Optional<Productor> update(Productor productor);

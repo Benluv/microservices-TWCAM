@@ -9,7 +9,7 @@
 		<version>3.1.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>es.uv.bjtwcam</groupId>
+	<groupId>es.uv.bjtwcam.consumidores</groupId>
 	<artifactId>consumidores</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>consumidores</name>
@@ -59,7 +59,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>es.uv.bjtwcam</groupId>
+			<groupId>es.uv.bjtwcam.productores</groupId>
 			<artifactId>productores</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

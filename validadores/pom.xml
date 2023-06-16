@@ -8,7 +8,7 @@
 		<version>3.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>es.uv.bjtwcam</groupId>
+	<groupId>es.uv.bjtwcam.validadores</groupId>
 	<artifactId>validadores</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>validadores</name>
@@ -85,9 +85,9 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>es.uv.bjtwcam</groupId>
-		    <artifactId>productores</artifactId>
-		    <version>0.0.1-SNAPSHOT</version>
+			<groupId>es.uv.bjtwcam.productores</groupId>
+			<artifactId>productores</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
