@@ -8,8 +8,7 @@
 		<version>3.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<!-- agregar es.uv.bjtwcam.productor en groupId o hacer un microservicio Shared. ref: DBCDS_S13_1-->
-	<groupId>es.uv.bjtwcam</groupId>
+	<groupId>es.uv.bjtwcam.productores</groupId>
 	<artifactId>productores</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>productores</name>
