@@ -4,6 +4,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -19,6 +20,7 @@ import es.uv.bjtwcam.productores.security.CustomAuthorizationFilter;
 import es.uv.bjtwcam.productores.security.CustomUserDetailsService;
 import es.uv.bjtwcam.productores.services.JwtService;
 
+@Configuration
 public class WebSecurityConfig {
     
 	
