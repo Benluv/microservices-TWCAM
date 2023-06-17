@@ -45,8 +45,8 @@ public class RefreshController {
 				String username = this.jwtService.getUsernameFromToken(token);
 				UserDetails user = this.customUserDetailsService.loadUserByUsername(username);
 				
-				String access_token = jwtService.generateAccessToken(user.getUsername(), 
-						 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+				String access_token = jwtService.generateAccessToken(user.getUsername()); 
+						 //,user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 				
 				response.setHeader("access_token", access_token);
 				response.setHeader("refresh_token", token);

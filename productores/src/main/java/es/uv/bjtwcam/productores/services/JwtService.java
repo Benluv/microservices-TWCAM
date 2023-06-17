@@ -37,21 +37,21 @@ public class JwtService {
 		this.verifier = JWT.require(this.algorithm).build();
 	}
 	
-	public String generateAccessToken(String username, List<String> claims) {
+	public String generateAccessToken(String username) {//, List<String> claims) {
 		return JWT.create()
 				 .withSubject(username)
 				 .withExpiresAt(new Date(System.currentTimeMillis()+this.duration))
 				 .withIssuer(this.issuer)
-				 .withClaim("roles", claims)
+				//  .withClaim("roles", claims)
 				 .sign(this.algorithm);
 	}
 	
-	public String generateRefreshToken(String username, List<String> claims) {
+	public String generateRefreshToken(String username) {//, List<String> claims) {
 		return JWT.create()
 				 .withSubject(username)
 				 .withExpiresAt(new Date(System.currentTimeMillis()+(this.duration*2)))
 				 .withIssuer(this.issuer)
-				 .withClaim("roles", claims)
+				//  .withClaim("roles", claims)
 				 .sign(this.algorithm);
 	}
 	

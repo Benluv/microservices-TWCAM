@@ -1,6 +1,7 @@
 package es.uv.bjtwcam.productores.security;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,12 +28,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 		Productor user = repo.findByNif(nif).orElseThrow(() -> new UsernameNotFoundException("User not found"));
 		return new org.springframework.security.core.userdetails.User(user.getNif(), 
 														              user.getPassword(),
-														              getAuthorities(user));
+														              getAuthorities());
     }
 
-	private static Collection<? extends GrantedAuthority> getAuthorities(Productor user) {
-        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList();
-        return authorities;
+	private static Collection<? extends GrantedAuthority> getAuthorities() {
+		return new HashSet<GrantedAuthority>();
+        // Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList();
+        // return authorities;
     }
 
 }

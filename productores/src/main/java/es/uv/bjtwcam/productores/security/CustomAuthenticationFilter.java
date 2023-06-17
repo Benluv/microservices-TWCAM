@@ -30,7 +30,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-		UsernamePasswordAuthenticationToken authtoken = new UsernamePasswordAuthenticationToken(request.getParameter("username"), 
+		UsernamePasswordAuthenticationToken authtoken = new UsernamePasswordAuthenticationToken(request.getParameter("nif"), 
 																								request.getParameter("password"));
 		return this.authenticationManager.authenticate(authtoken);
 	}
@@ -41,10 +41,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 		
 		User user = (User)auth.getPrincipal();
 		
-		String access_token = jwtService.generateAccessToken(user.getUsername(), 
-															 user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
-		String refresh_token = jwtService.generateRefreshToken(user.getUsername(), 
-															   user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+		String access_token = jwtService.generateAccessToken(user.getUsername()); 
+															 //,user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+		String refresh_token = jwtService.generateRefreshToken(user.getUsername()); 
+															   //,user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
 
 		response.setHeader("access_token", access_token);
 		response.setHeader("refresh_token", refresh_token);
