@@ -58,8 +58,6 @@ public class WebSecurityConfig {
 			.authorizeHttpRequests()
 				.requestMatchers("/api/v1/login", "/api/v1/login/refresh").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/productor").permitAll()
-				.requestMatchers(HttpMethod.GET, "/api/v1/productor", "/api/v1/productor/**").hasAnyAuthority()
-				.requestMatchers(HttpMethod.PUT, "/api/v1/productor", "/api/v1/productor/**").hasAnyAuthority()
                 // Not using roles so no need to state authorities
 				// .requestMatchers(HttpMethod.GET, "/api/v1/productor", "/api/v1/productor/**").hasAnyAuthority()
 	    		// .requestMatchers(HttpMethod.POST, "/api/v1/productor", "/api/v1/productor/**").hasAnyAuthority()

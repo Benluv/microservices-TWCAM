@@ -3,7 +3,6 @@ package es.uv.bjtwcam.productores.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,33 +50,6 @@ public class RegistroController {
         return new ResponseEntity<Productor>(this.ps.updateProductor(productor), HttpStatus.OK);
     }
 
-    @PostMapping("file")
-    @Operation(summary="Subir fichero", description="Subir un fichero de datos")
-    public ResponseEntity<Productor> uploadFile(@RequestBody Productor productor) {
-        log.debug("Subiendo fichero: {}", productor);
-        return new ResponseEntity<Productor>(this.ps.uploadFile(productor), HttpStatus.OK);
-    }
-
-    @GetMapping()
-    @Operation(summary="Listar ficheros", description="Consultar el listado de ficheros de datos del productor")
-    public ResponseEntity<Productor> getProductores() {
-        log.debug("Obteniendo productores");
-        return new ResponseEntity<Productor>(this.ps.getProductores(), HttpStatus.OK);
-    }
-
-    @PutMapping("file/{id}")
-    @Operation(summary="Modificar fichero", description="Modificar la informacion de un fichero de datos del productor")
-    public ResponseEntity<Productor> updateFile(@RequestBody Productor productor) {
-        log.debug("Actualizando fichero: {}", productor);
-        return new ResponseEntity<Productor>(this.ps.updateFile(productor), HttpStatus.OK);
-    }
-
-    @DeleteMapping("file/{id}")
-    @Operation(summary="Eliminar fichero", description="Eliminar un fichero de datos del productor")
-    public ResponseEntity<Productor> deleteFile(@RequestBody Productor productor) {
-        log.debug("Eliminando fichero: {}", productor);
-        return new ResponseEntity<Productor>(this.ps.deleteFile(productor), HttpStatus.OK);
-    }
 }
 
 /*
