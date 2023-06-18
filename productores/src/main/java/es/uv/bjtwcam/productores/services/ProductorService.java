@@ -3,9 +3,13 @@ package es.uv.bjtwcam.productores.services;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import es.uv.bjtwcam.productores.domain.Productor;
+import es.uv.bjtwcam.productores.domain.Productor.Estado;
+import es.uv.bjtwcam.productores.domain.Productor.Tipo;
+import es.uv.bjtwcam.productores.objects.ProductorDTO;
 import es.uv.bjtwcam.productores.repositories.ProductorRepository;
 import jakarta.transaction.Transactional;
 
@@ -22,27 +26,60 @@ public class ProductorService {
         return pr.findByNifAndPassword(nif, password);
     }
     
-    public Productor createProductor(Productor productor) {
-        return new Productor();
+    public void insert(ProductorDTO newUser) { 
+
+        Productor productor = new Productor();
+
+        Tipo tipo = Tipo.valueOf(newUser.getTipo());
+        Estado estado = Estado.valueOf(newUser.getEstado());
+        Integer cuota = Integer.valueOf(newUser.getCuota());
+
+        productor.setEmail(newUser.getEmail());
+        String pass = new BCryptPasswordEncoder().encode(newUser.getPassword());
+        productor.setPassword(pass);
+        productor.setNombre(newUser.getNombre());
+        productor.setCuota(cuota);
+        productor.setNif(newUser.getNif());
+        productor.setTipo(tipo);
+        productor.setEstado(estado);
+
+        // Validar y establecer el campo "estado" como vacío si es nulo o vacío en la solicitud
+        if (!newUser.getEstado().isEmpty()) {
+            productor.setEstado(Estado.pendiente);
+        } else {
+            productor.setEstado(Estado.pendiente);
+        }
+            pr.save(productor);
     }
 
-    public Productor updateProductor(Productor productor) {
-        return new Productor();
+    public Productor getProductorById(String productorNif) {
+        return pr.findByNif(productorNif).orElse(null);
     }
 
-    public Productor uploadFile(Productor productor) {
-        return new Productor();
-    }
+        public void update(String productorId, ProductorDTO updatedProductor) {
 
-    public Productor getProductores() {
-        return new Productor();
-    }
+        // Obtener el usuario existente por ID
+        Productor productor = getProductorById(productorId);
+        Tipo tipo = Tipo.valueOf(updatedProductor.getTipo());
+        Integer cuota = Integer.valueOf(updatedProductor.getCuota());
 
-    public Productor updateFile(Productor productor) {
-        return new Productor();
-    }
+        // Actualizar los campos modificables del usuario existente
+        productor.setEmail(updatedProductor.getEmail());
+        String pass = new BCryptPasswordEncoder().encode(updatedProductor.getPassword());
+        productor.setPassword(pass);
+        productor.setNombre(updatedProductor.getNombre());
+        productor.setCuota(cuota);
+        productor.setNif(updatedProductor.getNif());
+        productor.setTipo(tipo);
 
-    public Productor deleteFile(Productor productor) {
-        return new Productor();
+        if (!productor.getEstado().equals(null)|| !productor.getEstado().equals(Estado.pendiente)|| 
+        !productor.getEstado().equals(Estado.activo) ||
+        !productor.getEstado().equals(Estado.inactivo)   
+        ) {
+            productor.setEstado(Estado.pendiente);
+        } else {
+            productor.setEstado(productor.getEstado());
+        }
+        pr.save(productor);
     }
 }

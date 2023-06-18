@@ -80,8 +80,8 @@ public class ProductorDTO implements Serializable {
         return estado;
     }
 
-    public float getCuota() {
-        return cuota;
+    public String getCuota() {
+        return String.valueOf(cuota);
     }
 
     public String getEmail() {
