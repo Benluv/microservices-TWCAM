@@ -56,7 +56,7 @@ public class WebSecurityConfig {
 			.sessionManagement().sessionCreationPolicy(STATELESS)
 			.and()
 			.authorizeHttpRequests()
-				.requestMatchers("/api/v1/login", "/api/v1/login/refresh").permitAll()
+				.requestMatchers("/api/v1/login", "/api/v1/login/refresh", "/api/v1/productor/api-gui.html", "/api/v1/api-gui.html" ,"/swagger-ui/**", "/bus/v3/api-docs/**", "/api/v1/productor/swagger-ui", "/api/v1/productor/swagger-ui/**", "/api/v1/productor/api-spec").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/productor").permitAll()
                 // Not using roles so no need to state authorities
 				// .requestMatchers(HttpMethod.GET, "/api/v1/productor", "/api/v1/productor/**").hasAnyAuthority()

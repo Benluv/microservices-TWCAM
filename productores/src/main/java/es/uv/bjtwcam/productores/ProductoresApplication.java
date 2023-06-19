@@ -19,11 +19,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
 		),
 		license = @License(
 			name = "Apache 2.0",
-			url = "http://www.apache.org/licenses/LICENSE-2.0.html"
+			url = "https://www.apache.org/licenses/LICENSE-2.0"
 		),
 		description = "API para la gestion de productores y sus ficheros"
 	),
 	servers = @Server(
+		url = "http://127.0.0.1:8081",
 		description = "Servidor Productor"
 	)
 )

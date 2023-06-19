@@ -32,13 +32,13 @@ public class ProductorService {
 
         Tipo tipo = Tipo.valueOf(newUser.getTipo());
         Estado estado = Estado.valueOf(newUser.getEstado());
-        Integer cuota = Integer.valueOf(newUser.getCuota());
+        Float cuota = Float.valueOf(newUser.getCuota());
 
         productor.setEmail(newUser.getEmail());
         String pass = new BCryptPasswordEncoder().encode(newUser.getPassword());
         productor.setPassword(pass);
         productor.setNombre(newUser.getNombre());
-        productor.setCuota(cuota);
+        productor.setCuota(cuota.intValue());
         productor.setNif(newUser.getNif());
         productor.setTipo(tipo);
         productor.setEstado(estado);
@@ -71,14 +71,10 @@ public class ProductorService {
         productor.setCuota(cuota);
         productor.setNif(updatedProductor.getNif());
         productor.setTipo(tipo);
-
-        if (!productor.getEstado().equals(null)|| !productor.getEstado().equals(Estado.pendiente)|| 
-        !productor.getEstado().equals(Estado.activo) ||
-        !productor.getEstado().equals(Estado.inactivo)   
-        ) {
-            productor.setEstado(Estado.pendiente);
-        } else {
-            productor.setEstado(productor.getEstado());
+        // Validar y establecer el campo "estado" si no es nulo ni vacío en la solicitud
+        if (updatedProductor.getEstado() != null && !updatedProductor.getEstado().isEmpty()) {
+            Estado estado = Estado.valueOf(updatedProductor.getEstado());
+            productor.setEstado(estado);
         }
         pr.save(productor);
     }
