@@ -3,8 +3,6 @@ package es.uv.bjtwcam.productores.domain;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
 
 import es.uv.bjtwcam.validadores.services.ValidadorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +31,17 @@ public class ValidarController {
     @Autowired
     private ValidadorService vs;
 
+	@Autowired
+    private RestTemplate template;
+
+    @Value("${validador.productor.url}")
+    private String api;
+    
+	@GetMapping("status")
+	public ResponseEntity<String> test(){
+		return new ResponseEntity<String>("Running", HttpStatus.OK);
+	}
+
     @GetMapping
     @Operation(summary="Obtener listado de productores", description="Obtener listado de productores, si no se indica ningun filtro se devuelven todos")
     public ResponseEntity<List<Productor>> getProductores(
@@ -40,23 +54,38 @@ public class ValidarController {
         @RequestParam(name = "cuota", required = false) String cuota
     ) {
         List<Productor> p = new ArrayList<Productor>();
+		ResponseEntity<Productor> response;
 
         //Filtrar por id
         if (!id.isBlank()) {
-            UUID id_ = null;
             try {
-                log.info("Obteniendo productor con id: {}", id);
-                id_ = UUID.fromString(id);
-                if (p.add(vs.findById(id_))) {
-                    return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
-                } else {
-                    log.error("No existe el productor con id: {}", id);
-                    return ResponseEntity.notFound().build();
-                }
-            } catch (IllegalArgumentException e) {
-                log.error("El id no es un UUID valido: {}", id);
-                return ResponseEntity.badRequest().build();
+                response = template.getForEntity(api+"/"+ id, Productor.class);
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
+            if(response.getStatusCode() == HttpStatus.OK) {
+                log.info("Obteniendo productor con id: {}", id);
+                p.add(response.getBody());
+                return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            } else {
+                log.error("No existe el productor con id: {}", id);
+                return ResponseEntity.notFound().build();
+            }
+            // UUID id_ = null;
+            // try {
+            //     log.info("Obteniendo productor con id: {}", id);
+            //     id_ = UUID.fromString(id);
+            //     if (p.add(vs.findById(id_))) {
+            //         return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            //     } else {
+            //         log.error("No existe el productor con id: {}", id);
+            //         return ResponseEntity.notFound().build();
+            //     }
+            // } catch (IllegalArgumentException e) {
+            //     log.error("El id no es un UUID valido: {}", id);
+            //     return ResponseEntity.badRequest().build();
+            // }
         }
 
         //Filtrar por nif
