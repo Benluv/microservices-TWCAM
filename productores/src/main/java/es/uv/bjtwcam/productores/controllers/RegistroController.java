@@ -3,7 +3,6 @@ package es.uv.bjtwcam.productores.controllers;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +65,7 @@ public class RegistroController {
     @GetMapping
     @SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Obtener listado de productores", description="Obtener listado de productores, si no se indica ningun filtro se devuelven todos")
-    public ResponseEntity<Iterable<Productor>> getProductores(@RequestParam(name = "param", required = false) String param) {
+    public ResponseEntity<List<Productor>> getProductores(@RequestParam(name = "param", required = false) String param) {
         //check if param matches a Productor field
         if (param != null) {
             //get names from Productor
@@ -76,13 +75,13 @@ public class RegistroController {
             for (String field : fieldList) {
                 if (param.equals(field)) {
                     log.info("Obteniendo productores por " + param);
-                    return new ResponseEntity<Iterable<Productor>>(ps.findAllByField(field, param), HttpStatus.OK);
+                    return new ResponseEntity<List<Productor>>(ps.findAllByField(field, param), HttpStatus.OK);
                 }
             }
         }
 
         log.info("Obteniendo todos los productores");
-        return new ResponseEntity<Iterable<Productor>>(ps.findAll(), HttpStatus.OK);
+        return new ResponseEntity<List<Productor>>(ps.findAll(), HttpStatus.OK);
     }
 
 

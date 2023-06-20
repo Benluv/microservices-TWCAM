@@ -22,6 +22,7 @@ import es.uv.bjtwcam.validadores.services.ValidadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import es.uv.bjtwcam.productores.domain.Productor;
+import es.uv.bjtwcam.productores.objects.ProductorDTO;
 
 @RestController
 @RequestMapping("/api/v1/validador")
@@ -54,7 +55,8 @@ public class ValidarController {
         @RequestParam(name = "cuota", required = false) String cuota
     ) {
         List<Productor> p = new ArrayList<Productor>();
-		ResponseEntity<Productor> response;
+		ResponseEntity<Productor> response; 
+        String url = api;
 
         //check if no parameters are passed
         if (id.isBlank() && nif.isBlank() && name.isBlank() && email.isBlank() && type.isBlank() && estado.isBlank() && cuota.isBlank()) {
@@ -66,7 +68,7 @@ public class ValidarController {
         //Filtrar por id
         if (!id.isBlank()) {
             try {
-                response = template.getForEntity(api+"/"+ id, Productor.class);
+                response = template.getForEntity(url+"/"+ id, Productor.class);
             } 
             catch (ResourceAccessException e) {
                 return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
@@ -97,14 +99,31 @@ public class ValidarController {
 
         //Filtrar por nif
         else if (!nif.isBlank()) {
-            log.info("Obteniendo productor con nif: {}", nif);
-            Productor byNif = vs.findByNif(nif);
-            if (byNif != null) {
-                p.add(byNif);
-            } else {
-                log.error("No existe el productor con nif: {}", nif);
-                return ResponseEntity.notFound().build();
+            url += "?nif=" + nif;
+            try {
+                //should maybe think to use ProductorDTO instead of productor
+                response = template.getForEntity(url, Productor.class);
+                if(response.getBody() != null ) {
+                    log.info("Obteniendo productor con nif: {}", nif);
+                    p.add(response.getBody());
+                    return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+                } else {
+                    log.error("No existe el productor con nif: {}", nif);
+                    return ResponseEntity.notFound().build();
+                }
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
+
+            // log.info("Obteniendo productor con nif: {}", nif);
+            // Productor byNif = vs.findByNif(nif);
+            // if (byNif != null) {
+            //     p.add(byNif);
+            // } else {
+            //     log.error("No existe el productor con nif: {}", nif);
+            //     return ResponseEntity.notFound().build();
+            // }
         }
 
         //Filtrar por name
