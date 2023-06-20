@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Optional;
 
 import es.uv.bjtwcam.consumidores.services.ConsumidorService;
 import es.uv.bjtwcam.productores.domain.Productor;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -21,25 +20,25 @@ public class ConsultarController {
     private ConsumidorService cs;
 
     @GetMapping("consumidor/file/{palabra clave}")
-    public Flux<Productor> getFileByWord() {
+    public Optional<Productor> getFileByWord() {
         LOGGER.debug("Obteniendo productores");
         return this.cs.getFileByWord();
     }
 
     @GetMapping("consumidor/{nombre productor}")
-    public Flux<Productor> getFileByProd() {
+    public Optional<Productor> getFileByProd() {
         LOGGER.debug("Obteniendo productores");
         return this.cs.getFileByProd();
     }
 
     @GetMapping("consumidor/file/{id}?full=false")
-    public Mono<Productor> getPrevFile() {
+    public Optional<Productor> getPrevFile() {
         LOGGER.debug("Obteniendo previsualizacion de fichero");
         return this.cs.getPrevFile();
     }
 
     @GetMapping("consumidor/file/{id}?full=true")
-    public Mono<Productor> getFile() {
+    public Optional<Productor> getFile() {
         LOGGER.debug("Obteniendo fichero completo");
         return this.cs.getFile();
     }
