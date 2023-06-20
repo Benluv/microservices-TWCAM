@@ -50,7 +50,7 @@ public class Productor implements Serializable {
     }
     
     public enum Tipo {
-        persona {
+        fisica {
             public String toString() {
                 return"persona física";
             }

@@ -1,5 +1,7 @@
 package es.uv.bjtwcam.productores.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.uv.bjtwcam.productores.domain.Productor;
 import es.uv.bjtwcam.productores.objects.AuthenticatedProductor;
 import es.uv.bjtwcam.productores.objects.ProductorDTO;
 import es.uv.bjtwcam.productores.services.AnalyticsService;
@@ -58,11 +61,14 @@ public class RegistroController {
 
     @PostMapping()
     @Operation(summary="Crear nuevo productor", description="Solicitud de registro de un nuevo productor (No Auth)")
-    public ResponseEntity<?> createProductor(@RequestBody ProductorDTO productor) {
+    public ResponseEntity<Productor> createProductor(@RequestBody Productor productor) {
         log.info("creando Productor: " + productor);
         // insert productor into db
-        ps.insert(productor);
-        return new ResponseEntity<>(productor, HttpStatus.CREATED);
+        Productor p = ps.insert(productor);
+        if (p != null) {
+            return new ResponseEntity<Productor>(p, HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")

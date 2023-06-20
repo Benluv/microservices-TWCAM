@@ -2,6 +2,7 @@ package es.uv.bjtwcam.productores.services;
 
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,38 +26,35 @@ public class ProductorService {
     public Optional<Productor> login(String nif, String password) {
         return pr.findByNifAndPassword(nif, password);
     }
-    
-    public void insert(ProductorDTO newUser) { 
 
-        Productor productor = new Productor();
-
-        Tipo tipo = Tipo.valueOf(newUser.getTipo());
-        Estado estado = Estado.valueOf(newUser.getEstado());
-        Float cuota = Float.valueOf(newUser.getCuota());
-
-        productor.setEmail(newUser.getEmail());
-        String pass = new BCryptPasswordEncoder().encode(newUser.getPassword());
-        productor.setPassword(pass);
-        productor.setNombre(newUser.getNombre());
-        productor.setCuota(cuota.intValue());
-        productor.setNif(newUser.getNif());
-        productor.setTipo(tipo);
-        productor.setEstado(estado);
-
-        // Validar y establecer el campo "estado" como vacío si es nulo o vacío en la solicitud
-        if (!newUser.getEstado().isEmpty()) {
+    public Productor insert(Productor productor) {
             productor.setEstado(Estado.pendiente);
-        } else {
-            productor.setEstado(Estado.pendiente);
+
+        if (productor.getCuota() == null) {
+            productor.setCuota(0);
         }
-            pr.save(productor);
+        // if productor.getTipo is null or "fisica" or "juridica" then set productor.getTipo to "fisica
+        if (productor.getTipo() == null || productor.getTipo().toString().equals("fisica"))
+            productor.setTipo(Tipo.fisica);
+        else if (productor.getTipo().toString().equals("juridica"))
+            productor.setTipo(Tipo.juridica);
+        else
+            return null;
+
+        try{
+            String pass = new BCryptPasswordEncoder().encode(productor.getPassword());
+            productor.setPassword(pass);
+        } catch(Exception e){
+            return null;
+        }
+        return pr.save(productor);
     }
 
     public Productor getProductorById(String productorNif) {
         return pr.findByNif(productorNif).orElse(null);
     }
 
-        public void update(String productorId, ProductorDTO updatedProductor) {
+    public void update(String productorId, ProductorDTO updatedProductor) {
 
         // Obtener el usuario existente por ID
         Productor productor = getProductorById(productorId);
