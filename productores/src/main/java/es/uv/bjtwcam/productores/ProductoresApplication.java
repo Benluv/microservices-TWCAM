@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 		description = "API para la gestion de productores y sus ficheros"
 	),
 	servers = @Server(
-		url = "http://127.0.0.1:8081",
+		url = "http://127.0.0.1:8080",
 		description = "Servidor Productor"
 	)
 )
