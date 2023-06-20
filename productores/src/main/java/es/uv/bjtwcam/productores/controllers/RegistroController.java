@@ -1,6 +1,10 @@
 package es.uv.bjtwcam.productores.controllers;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.uv.bjtwcam.productores.domain.Productor;
@@ -56,6 +61,28 @@ public class RegistroController {
         // Update count of user access
         as.addUserAccess(id);
         return "Se obtiene el productor: "+ id;
+    }
+
+    @GetMapping
+    @SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary="Obtener listado de productores", description="Obtener listado de productores, si no se indica ningun filtro se devuelven todos")
+    public ResponseEntity<Iterable<Productor>> getProductores(@RequestParam(name = "param", required = false) String param) {
+        //check if param matches a Productor field
+        if (param != null) {
+            //get names from Productor
+            Field[] fields = Productor.class.getDeclaredFields();
+            List<String> fieldList = Arrays.stream(fields).map(Field::getName).collect(Collectors.toList());
+            //check if param matches a Productor field
+            for (String field : fieldList) {
+                if (param.equals(field)) {
+                    log.info("Obteniendo productores por " + param);
+                    return new ResponseEntity<Iterable<Productor>>(ps.findAllByField(field, param), HttpStatus.OK);
+                }
+            }
+        }
+
+        log.info("Obteniendo todos los productores");
+        return new ResponseEntity<Iterable<Productor>>(ps.findAll(), HttpStatus.OK);
     }
 
 

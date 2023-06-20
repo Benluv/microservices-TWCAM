@@ -1,9 +1,8 @@
 package es.uv.bjtwcam.productores.services;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +51,14 @@ public class ProductorService {
 
     public Productor getProductorById(String productorNif) {
         return pr.findByNif(productorNif).orElse(null);
+    }
+
+    public List<Productor> findAll() {
+        return pr.findAll();
+    }
+
+    public List<Productor> findAllByField(String field, String value) {
+        return pr.findAllByField(field, value);
     }
 
     public void update(String productorId, ProductorDTO updatedProductor) {
