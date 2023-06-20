@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.uv.bjtwcam.productores.domain.Productor;
 import es.uv.bjtwcam.productores.objects.AuthenticatedProductor;
 import es.uv.bjtwcam.productores.objects.ProductorDTO;
 import es.uv.bjtwcam.productores.services.AnalyticsService;
 import es.uv.bjtwcam.productores.services.ProductorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import org.springframework.security.core.Authentication;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +33,8 @@ public class RegistroController {
     AnalyticsService as;
 
     @GetMapping("authenticated")
+	@SecurityRequirement(name = "Bearer Authentication")
+    @Operation(summary="Obtener productor autenticado", description="Obtener la informacion del productor autenticado")
     public ResponseEntity<AuthenticatedProductor> getAuthenticatedProductor(Authentication auth) {
         log.debug("Obteniendo productor autenticado");
         if(auth.isAuthenticated()) {
@@ -43,6 +46,7 @@ public class RegistroController {
     }
     
     @GetMapping("/{id}")
+	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Obtener productor", description="Obtener la informacion de un productor por su id")
     public String getProductor(@PathVariable(name="id") String id) {
         log.info("getProductor: " + id);
@@ -54,14 +58,15 @@ public class RegistroController {
 
     @PostMapping()
     @Operation(summary="Crear nuevo productor", description="Solicitud de registro de un nuevo productor (No Auth)")
-    public String createProductor(@RequestBody ProductorDTO productor) {
+    public ResponseEntity<?> createProductor(@RequestBody ProductorDTO productor) {
         log.info("creando Productor: " + productor);
         // insert productor into db
         ps.insert(productor);
-        return "Se crea el productor: "+ productor;
+        return new ResponseEntity<>(productor, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor")
     public String modifyUser(@PathVariable("id") String id, @RequestBody ProductorDTO productor) {
         log.info("modifyUser: " + id);
