@@ -56,6 +56,13 @@ public class ValidarController {
         List<Productor> p = new ArrayList<Productor>();
 		ResponseEntity<Productor> response;
 
+        //check if no parameters are passed
+        if (id.isBlank() && nif.isBlank() && name.isBlank() && email.isBlank() && type.isBlank() && estado.isBlank() && cuota.isBlank()) {
+            log.info("Obteniendo todos los productores");
+            p =  this.vs.findAll();
+            return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+        }
+
         //Filtrar por id
         if (!id.isBlank()) {
             try {
@@ -91,8 +98,9 @@ public class ValidarController {
         //Filtrar por nif
         else if (!nif.isBlank()) {
             log.info("Obteniendo productor con nif: {}", nif);
-            if (p.add(vs.findByNif(nif))) {
-                return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            Productor byNif = vs.findByNif(nif);
+            if (byNif != null) {
+                p.add(byNif);
             } else {
                 log.error("No existe el productor con nif: {}", nif);
                 return ResponseEntity.notFound().build();
@@ -102,8 +110,9 @@ public class ValidarController {
         //Filtrar por name
         else if (!name.isBlank()) {
             log.info("Obteniendo productor con name: {}", name);
-            if (p.add(vs.findByName(name))) {
-                return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            Productor byName = vs.findByName(name);
+            if (byName != null) {
+                p.add(byName);
             } else {
                 log.error("No existe el productor con name: {}", name);
                 return ResponseEntity.notFound().build();
@@ -113,8 +122,9 @@ public class ValidarController {
         //Filtrar por email
         else if (!email.isBlank()) {
             log.info("Obteniendo productor con email: {}", email);
-            if (p.add(vs.findByEmail(email))) {
-                return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            Productor byEmail = vs.findByEmail(email);
+            if (byEmail != null) {
+                p.add(byEmail);
             } else {
                 log.error("No existe el productor con email: {}", email);
                 return ResponseEntity.notFound().build();
@@ -124,8 +134,9 @@ public class ValidarController {
         //Filtrar por type
         else if (!type.isBlank()) {
             log.info("Obteniendo productor con type: {}", type);
-            if (p.add(vs.findByType(type))) {
-                return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            Productor byType = vs.findByType(type);
+            if (byType != null) {
+                p.add(byType);
             } else {
                 log.error("No existe el productor con type: {}", type);
                 return ResponseEntity.notFound().build();
@@ -135,8 +146,9 @@ public class ValidarController {
         //Filtrar por estado
         else if (!estado.isBlank()) {
             log.info("Obteniendo productor con estado: {}", estado);
-            if (p.add(vs.findByEstado(estado))) {
-                return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            Productor byEstado = vs.findByEstado(estado);
+            if (byEstado != null) {
+                p.add(byEstado);
             } else {
                 log.error("No existe el productor con estado: {}", estado);
                 return ResponseEntity.notFound().build();
@@ -146,20 +158,16 @@ public class ValidarController {
         //Filtrar por cuota
         else if (!cuota.isBlank()) {
             log.info("Obteniendo productor con cuota: {}", cuota);
-            if (p.add(vs.findByCuotaAnual(cuota))) {
-                return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            Productor byCuota = vs.findByCuotaAnual(cuota);
+            if (byCuota != null) {
+                p.add(byCuota);
             } else {
                 log.error("No existe el productor con cuota: {}", cuota);
                 return ResponseEntity.notFound().build();
             }
         }
         
-        //Si no se indica ningun filtro se devuelven todos
-        else {
-            log.info("Obteniendo todos los productores");
-            p =  this.vs.findAll();
-            return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
-        }
+        return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
     }
 
     @PutMapping("/aprobar/{id}")
