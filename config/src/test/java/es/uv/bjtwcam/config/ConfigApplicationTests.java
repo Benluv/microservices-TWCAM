@@ -1,4 +1,4 @@
-package es.uv.bjtwcam.config.config;
+package es.uv.bjtwcam.config;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
