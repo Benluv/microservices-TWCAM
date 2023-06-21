@@ -18,11 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import es.uv.bjtwcam.validadores.objects.ProductorDTO;
 import es.uv.bjtwcam.validadores.services.ValidadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
-import es.uv.bjtwcam.productores.domain.Productor;
-import es.uv.bjtwcam.productores.objects.ProductorDTO;
 
 @RestController
 @RequestMapping("/api/v1/validador")
@@ -43,9 +42,29 @@ public class ValidarController {
 		return new ResponseEntity<String>("Running", HttpStatus.OK);
 	}
 
+    @GetMapping({"/{id}"})
+    @Operation(summary="Obtener productor", description="Obtener la informacion de un productor por su id")
+    public ResponseEntity<ProductorDTO> getProductor(@PathVariable(name="id") UUID id) {
+		ResponseEntity<ProductorDTO> response; 
+        String url = "http://localhost:8080/api/v1/productor";
+            try {
+                response = template.getForEntity(url+"/"+ id, ProductorDTO.class);
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(response.getStatusCode() == HttpStatus.OK) {
+                log.info("Obteniendo productor con id: {}", id);
+                return new ResponseEntity<ProductorDTO>(response.getBody(), HttpStatus.OK);
+            } else {
+                log.error("No existe el productor con id: {}", id);
+                return ResponseEntity.notFound().build();
+            }
+    }
+
     @GetMapping
     @Operation(summary="Obtener listado de productores", description="Obtener listado de productores, si no se indica ningun filtro se devuelven todos")
-    public ResponseEntity<List<Productor>> getProductores(
+    public ResponseEntity<List<ProductorDTO>> getProductores(
         @RequestParam(name = "id", required = false) String id,
         @RequestParam(name = "nif", required = false) String nif,
         @RequestParam(name = "name", required = false) String name,
@@ -54,21 +73,21 @@ public class ValidarController {
         @RequestParam(name = "estado", required = false) String estado,
         @RequestParam(name = "cuota", required = false) String cuota
     ) {
-        List<Productor> p = new ArrayList<Productor>();
-		ResponseEntity<Productor> response; 
+        List<ProductorDTO> p = new ArrayList<ProductorDTO>();
+		ResponseEntity<ProductorDTO> response; 
         String url = api;
 
         //check if no parameters are passed
         if (id.isBlank() && nif.isBlank() && name.isBlank() && email.isBlank() && type.isBlank() && estado.isBlank() && cuota.isBlank()) {
             log.info("Obteniendo todos los productores");
             p =  this.vs.findAll();
-            return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+            return new ResponseEntity<List<ProductorDTO>>(p, HttpStatus.OK);
         }
 
         //Filtrar por id
         if (!id.isBlank()) {
             try {
-                response = template.getForEntity(url+"/"+ id, Productor.class);
+                response = template.getForEntity(url+"/"+ id, ProductorDTO.class);
             } 
             catch (ResourceAccessException e) {
                 return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
@@ -76,7 +95,7 @@ public class ValidarController {
             if(response.getStatusCode() == HttpStatus.OK) {
                 log.info("Obteniendo productor con id: {}", id);
                 p.add(response.getBody());
-                return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+                return new ResponseEntity<List<ProductorDTO>>(p, HttpStatus.OK);
             } else {
                 log.error("No existe el productor con id: {}", id);
                 return ResponseEntity.notFound().build();
@@ -102,11 +121,11 @@ public class ValidarController {
             url += "?nif=" + nif;
             try {
                 //should maybe think to use ProductorDTO instead of productor
-                response = template.getForEntity(url, Productor.class);
+                response = template.getForEntity(url, ProductorDTO.class);
                 if(response.getBody() != null ) {
                     log.info("Obteniendo productor con nif: {}", nif);
                     p.add(response.getBody());
-                    return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+                    return new ResponseEntity<List<ProductorDTO>>(p, HttpStatus.OK);
                 } else {
                     log.error("No existe el productor con nif: {}", nif);
                     return ResponseEntity.notFound().build();
@@ -129,7 +148,7 @@ public class ValidarController {
         //Filtrar por name
         else if (!name.isBlank()) {
             log.info("Obteniendo productor con name: {}", name);
-            Productor byName = vs.findByName(name);
+            ProductorDTO byName = vs.findByName(name);
             if (byName != null) {
                 p.add(byName);
             } else {
@@ -141,7 +160,7 @@ public class ValidarController {
         //Filtrar por email
         else if (!email.isBlank()) {
             log.info("Obteniendo productor con email: {}", email);
-            Productor byEmail = vs.findByEmail(email);
+            ProductorDTO byEmail = vs.findByEmail(email);
             if (byEmail != null) {
                 p.add(byEmail);
             } else {
@@ -153,7 +172,7 @@ public class ValidarController {
         //Filtrar por type
         else if (!type.isBlank()) {
             log.info("Obteniendo productor con type: {}", type);
-            Productor byType = vs.findByType(type);
+            ProductorDTO byType = vs.findByType(type);
             if (byType != null) {
                 p.add(byType);
             } else {
@@ -165,7 +184,7 @@ public class ValidarController {
         //Filtrar por estado
         else if (!estado.isBlank()) {
             log.info("Obteniendo productor con estado: {}", estado);
-            Productor byEstado = vs.findByEstado(estado);
+            ProductorDTO byEstado = vs.findByEstado(estado);
             if (byEstado != null) {
                 p.add(byEstado);
             } else {
@@ -177,7 +196,7 @@ public class ValidarController {
         //Filtrar por cuota
         else if (!cuota.isBlank()) {
             log.info("Obteniendo productor con cuota: {}", cuota);
-            Productor byCuota = vs.findByCuotaAnual(cuota);
+            ProductorDTO byCuota = vs.findByCuotaAnual(cuota);
             if (byCuota != null) {
                 p.add(byCuota);
             } else {
@@ -186,17 +205,17 @@ public class ValidarController {
             }
         }
         
-        return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
+        return new ResponseEntity<List<ProductorDTO>>(p, HttpStatus.OK);
     }
 
     @PutMapping("/aprobar/{id}")
     @Operation(summary="Aprobar un nuevo productor", description="Se indicara el identificador del productor y la cuota anual")
-    public ResponseEntity<Productor> aprobarProductor(
+    public ResponseEntity<ProductorDTO> aprobarProductor(
         @PathVariable("id") UUID id,
         @RequestParam(name = "cuota", required = true) String cuotaAnual
         ) {
         //check if id exists
-        Productor p = vs.findById(id);
+        ProductorDTO p = vs.findById(id);
         Integer cuota = 0;
         if (p == null) {
             log.error("No existe el productor con id: {}", id);
@@ -219,9 +238,9 @@ public class ValidarController {
     
     @PutMapping("/{id}")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor.Se podra actualizar cualquier campo del productor a traves de su identificador")
-    public ResponseEntity<Productor> updateProductor(@PathVariable("id") UUID id) {
+    public ResponseEntity<ProductorDTO> updateProductor(@PathVariable("id") UUID id) {
         //check if id exists
-        Productor p = vs.findById(id);
+        ProductorDTO p = vs.findById(id);
         if (p == null) {
             log.error("No existe el productor con id: {}", id);
             return ResponseEntity.notFound().build();
@@ -236,7 +255,7 @@ public class ValidarController {
     @Operation(summary="Eliminar un productor", description="Se indicara el identificador del productor a eliminar")
     public ResponseEntity<String> deleteProductor(@PathVariable("id") UUID id) {
         //check if id exists
-        Productor p = vs.findById(id);
+        ProductorDTO p = vs.findById(id);
         if (p == null) {
             log.error("No existe el productor con id: {}", id);
             return ResponseEntity.notFound().build();

@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import es.uv.bjtwcam.productores.domain.Productor;
+import es.uv.bjtwcam.validadores.objects.ProductorDTO;
 import es.uv.bjtwcam.validadores.repositories.ValidadorRepository;
 import jakarta.transaction.Transactional;
 
@@ -17,48 +17,48 @@ public class ValidadorService {
     @Autowired
     private ValidadorRepository vr;
 
-    public List<Productor> findAll() {
+    public List<ProductorDTO> findAll() {
         return vr.findAll();
     }
 
-    public Productor findById(UUID id) {
+    public ProductorDTO findById(UUID id) {
         return vr.findById(id);
     }
 
-    public Productor findByNif(String nif) {
+    public ProductorDTO findByNif(String nif) {
         return vr.findByNif(nif);
     }
 
-    public Productor findByName(String name) {
+    public ProductorDTO findByName(String name) {
         return vr.findByName(name);
     }
 
-    public Productor findByEmail(String email) {
+    public ProductorDTO findByEmail(String email) {
         return vr.findByEmail(email);
     }
 
-    public Productor findByType(String type) {
+    public ProductorDTO findByType(String type) {
         return vr.findByType(type);
     }
 
-    public Productor findByEstado(String estado) {
+    public ProductorDTO findByEstado(String estado) {
         return vr.findByEstado(estado);
     }
 
-    public Productor findByCuotaAnual(String cuotaAnual) {
+    public ProductorDTO findByCuotaAnual(String cuotaAnual) {
         return vr.findByCuotaAnual(cuotaAnual);
     }
 
-    public Productor aprobarProductor(Productor productor) {
-        productor.setApproved();
+    public ProductorDTO aprobarProductor(ProductorDTO productor) {
+        // productor.setApproved();
         return vr.save(productor);
     }
 
-    public Optional<Productor> updateProductor(Productor productor) {
+    public Optional<ProductorDTO> updateProductor(ProductorDTO productor) {
         return vr.update(productor);
     }
 
-    public void deleteProductor(Productor productor) {
+    public void deleteProductor(ProductorDTO productor) {
         vr.delete(productor);
     }
 }

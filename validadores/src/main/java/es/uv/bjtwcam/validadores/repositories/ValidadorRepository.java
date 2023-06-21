@@ -6,17 +6,18 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import es.uv.bjtwcam.productores.domain.Productor;
+import es.uv.bjtwcam.validadores.objects.ProductorDTO;
 
-public interface ValidadorRepository extends JpaRepository<Productor, Integer>{
+//This will be discontinued
+public interface ValidadorRepository extends JpaRepository<ProductorDTO, Integer>{
     
-    List<Productor> findAll();
-    Optional<Productor> update(Productor productor);
-    Productor findById(UUID id);
-    Productor findByNif(String nif);
-    Productor findByName(String name);
-    Productor findByEmail(String email);
-    Productor findByType(String type);
-    Productor findByEstado(String estado);
-    Productor findByCuotaAnual(String cuotaAnual);
+    List<ProductorDTO> findAll();
+    Optional<ProductorDTO> update(ProductorDTO productor);
+    ProductorDTO findById(UUID id);
+    ProductorDTO findByNif(String nif);
+    ProductorDTO findByName(String name);
+    ProductorDTO findByEmail(String email);
+    ProductorDTO findByType(String type);
+    ProductorDTO findByEstado(String estado);
+    ProductorDTO findByCuotaAnual(String cuotaAnual);
 }
