@@ -14,6 +14,7 @@ public interface ProductorRepository extends JpaRepository<Productor, Integer> {
     Optional<Productor> findByNif(String nif);
     Optional<Productor> findByNifAndPassword(String nif, String password);
     
+    //doess not work
     @Query("SELECT p FROM Productor p WHERE LOWER(p.:field) = LOWER(:value)")
     List<Productor> findAllByField(@Param("field") String field, @Param("value") String value);
 }
