@@ -17,6 +17,7 @@ import lombok.Data;
 public class Productor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false)
     private Integer id;
 
     @Column(nullable = false, length = 9, unique = true)

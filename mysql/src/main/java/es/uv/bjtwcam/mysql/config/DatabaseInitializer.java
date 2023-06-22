@@ -19,7 +19,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //initialize Tipo enum
-        Tipo tipo = Tipo.valueOf("persona");
+        Tipo tipo = Tipo.valueOf("fisica");
         Estado estado = Estado.valueOf("activo");
         
         // Verificar si los datos ya están inicializados
