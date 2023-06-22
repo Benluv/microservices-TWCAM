@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="files")
-public class FileSQL {
+public class File {
     
     @Id
     private String id;
