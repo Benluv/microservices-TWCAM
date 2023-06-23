@@ -2,11 +2,13 @@ package es.uv.bjtwcam.mysql.domain;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.UUID;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -16,9 +18,13 @@ import lombok.Data;
 @Table(name = "productores", schema="portalAyuntDB")
 public class Productor implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     @Column(updatable = false, nullable = false)
-    private Integer id;
+    private UUID id;
 
     @Column(nullable = false, length = 9, unique = true)
     private String nif;
@@ -32,7 +38,7 @@ public class Productor implements Serializable {
     @Column(nullable = false)
     private Estado estado;
 
-    @Column(nullable = false, name = "cuota_anual")
+    @Column(nullable = false)
     private Integer cuota;
 
     @Column(nullable = false)

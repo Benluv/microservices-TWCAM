@@ -1,5 +1,6 @@
 package es.uv.bjtwcam.mysql.domain;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -32,7 +33,7 @@ public class File {
     private String fileSize;
 
     @Column(nullable = false)
-    private String fileStatus;
+    private Estado fileStatus;
 
     @Column(nullable = false)
     private String fileTitle;
@@ -49,5 +50,32 @@ public class File {
     @OneToOne
     @JoinColumn(name = "fk_validador")
     Validador validador;
+
+    public void setApproved() {
+        //get names from status
+        String[] estados = Estado.getNames(Estado.class);
+        //check if estado is pendiente
+        if (this.fileStatus == Estado.valueOf(estados[0]))
+            //set estado to activo
+            this.fileStatus = Estado.valueOf(estados[1]);
+    }
+
+    public enum Estado {
+        pendiente {
+            @Override
+            public String toString() {
+                return "pendiente";
+            }
+        },
+        activo {
+            @Override
+            public String toString() {
+                return "activo";
+            }
+        };
+        public static String[] getNames(Class<? extends Enum<?>> e) {
+            return Arrays.stream(e.getEnumConstants()).map(Enum::name).toArray(String[]::new);
+        }
+    }
 
 }
