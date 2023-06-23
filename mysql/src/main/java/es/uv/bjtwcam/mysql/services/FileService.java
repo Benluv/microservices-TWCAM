@@ -8,10 +8,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import es.uv.bjtwcam.mysql.domain.File;
+import es.uv.bjtwcam.mysql.interfaces.FileServiceInterface;
 import es.uv.bjtwcam.mysql.repositories.FileRepository;
 
 @Service
-public class FileService {
+public class FileService implements FileServiceInterface {
 
     @Autowired
     private FileRepository fr;
@@ -30,7 +31,7 @@ public class FileService {
         this.fr.save(file);
     }
 
-    public File findSQLFileById(String id) {
+    public File findFileById(String id) {
         //from String to uuid
         UUID id_ = UUID.fromString(id);
         return this.fr.findById(id_).orElse(null);
