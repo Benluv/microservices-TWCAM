@@ -11,7 +11,6 @@ import es.uv.bjtwcam.mysql.domain.Productor;
 import es.uv.bjtwcam.mysql.domain.Productor.Estado;
 import es.uv.bjtwcam.mysql.domain.Productor.Tipo;
 import es.uv.bjtwcam.mysql.interfaces.ProductorServiceInterface;
-import es.uv.bjtwcam.mysql.objects.ProductorDTO;
 import es.uv.bjtwcam.mysql.repositories.ProductorRepository;
 import jakarta.transaction.Transactional;
 
@@ -29,8 +28,8 @@ public class ProductorService implements ProductorServiceInterface {
     }
 
     public Productor insert(Productor productor) {
-            productor.setEstado(Estado.pendiente);
 
+        productor.setEstado(Estado.pendiente);
         if (productor.getCuota() == null) {
             productor.setCuota(0);
         }
