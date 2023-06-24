@@ -1,11 +1,14 @@
 package es.uv.bjtwcam.mysql.domain;
 
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.UUID;
+import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -26,21 +29,35 @@ public class File {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false, unique = true)
     private UUID id;
 
-    @Column(nullable = false)
-    private String fileSize;
+    @Column(updatable = false, nullable = false, name="fecha_creacion")
+    private Date fecha;
 
     @Column(nullable = false)
-    private Estado fileStatus;
-
-    @Column(nullable = false)
-    private String fileTitle;
+    private String titulo;
 
     @Column()
-    private String fileDescription;
+    private String descripcion;
 
+    @Column(nullable = false, name = "tamano")
+    private Integer tamano;
+
+    @ElementCollection
+    @Column(name = "palabras_clave")
+    private List<String> palabra;
+
+    @Column(nullable = false)
+    private Integer previsualizaciones;
+
+    @Column(nullable = false)
+    private Integer descargas;
+
+    @Column(nullable = false)
+    private Estado estado;
+
+    
     // relacion * a 1 con productor
     @ManyToOne
     @JoinColumn(name = "fk_productor")
@@ -55,9 +72,9 @@ public class File {
         //get names from status
         String[] estados = Estado.getNames(Estado.class);
         //check if estado is pendiente
-        if (this.fileStatus == Estado.valueOf(estados[0]))
+        if (this.estado == Estado.valueOf(estados[0]))
             //set estado to activo
-            this.fileStatus = Estado.valueOf(estados[1]);
+            this.estado = Estado.valueOf(estados[1]);
     }
 
     public enum Estado {

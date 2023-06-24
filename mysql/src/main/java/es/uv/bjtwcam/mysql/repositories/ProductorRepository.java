@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import es.uv.bjtwcam.mysql.domain.Productor;
 import es.uv.bjtwcam.mysql.domain.Productor.Estado;
@@ -19,6 +20,12 @@ public interface ProductorRepository extends JpaRepository<Productor, UUID> {
     Optional<List<Productor>> findAllByTipo(Tipo tipo);
     Optional<List<Productor>> findAllByEstado(Estado estado);
     Optional<List<Productor>> findAllByCuota(Integer cuota);
+
+    @Query("SELECT p.estado, COUNT(p) FROM Productor p GROUP BY p.estado")
+    List<Object[]> countProductorsByEstado();
+
+    @Query("SELECT p FROM Productor p JOIN p.files f GROUP BY p HAVING COUNT(f) > 5")
+    List<Productor> findProductorsWithMoreThan5Files();
     
     //Was attempting to make this work to have a generic way to search by any field but it didn't work
     //Like the idea though so I'll leave it here

@@ -23,7 +23,7 @@ public class Productor implements Serializable {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false, unique = true)
     private UUID id;
 
     @Column(nullable = false, length = 9, unique = true)
@@ -41,7 +41,7 @@ public class Productor implements Serializable {
     @Column(nullable = false)
     private Integer cuota;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 50)
     private String email;
 
     @Column(nullable = false)

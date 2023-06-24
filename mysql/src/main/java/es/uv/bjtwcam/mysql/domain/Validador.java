@@ -23,13 +23,13 @@ public class Validador implements Serializable {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false, unique = true)
     private UUID id;
 
     @Column(nullable=false, length=50)
     private String nombre;
 
-    @Column(nullable=false)
+    @Column(nullable=false, unique = true, length=50)
     private String email;
 
     @Column(nullable=false)
