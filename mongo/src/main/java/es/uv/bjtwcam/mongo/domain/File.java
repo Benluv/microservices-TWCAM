@@ -15,55 +15,28 @@ public class File {
 
     @Id
     private String id;
-    private String title;
-    private String filesize;
-    private String description;
-    private List<String> keywords;
+    private String titulo;
+    private String tamano;
+    private String descripcion;
+    private List<String> palabras;
     private List<Object> data;
 
     public File() {}
+	
+	public File(File file) {
+		this.id = file.getId();
+		this.titulo = file.getTitulo();
+		this.tamano = file.getTamano();
+		this.descripcion = file.getDescripcion();
+		this.palabras = file.getPalabras();
+		this.data = file.getData();
+	}
 
-    public File(String title, String filesize, String description, List<String> keywords, List<Object> data) {
-        this.title = title;
-        this.filesize = filesize;
-        this.description = description;
-        this.keywords = keywords;
+    public File(String titulo, String tamano, String descripcion, List<String> palabras, List<Object> data) {
+        this.titulo = titulo;
+        this.tamano = tamano;
+        this.descripcion = descripcion;
+        this.palabras = palabras;
         this.data = data;
     }
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getFileSize() {
-		return filesize;
-	}
-	public void setFileSize(String filesize) {
-		this.filesize = filesize;
-	}
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	public List<String> getKeywords() {
-		return keywords;
-	}
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
-	}
-	public List<Object> getData() {
-		return data;
-	}
-	public void setData(List<Object> data) {
-		this.data = data;
-	}
 }
