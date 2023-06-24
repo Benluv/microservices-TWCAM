@@ -1,4 +1,3 @@
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -10,9 +9,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
+DROP TABLE IF EXISTS portalAyuntDB.file_palabras_clave;
+DROP TABLE IF EXISTS portalAyuntDB.files;
 -- Creación de la tabla 'productores'
-
 DROP TABLE IF EXISTS portalAyuntDB.productores;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -44,15 +43,13 @@ CREATE TABLE portalAyuntDB.validadores (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 -- Creación de la tabla 'files'
-
-DROP TABLE IF EXISTS portalAyuntDB.files;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE portalAyuntDB.files (
   id CHAR(36) NOT NULL UNIQUE,
-  fecha_creacion DATE .NOW(),
+  fecha_creacion DATE NOT NULL,
   titulo VARCHAR(255) NOT NULL,
-  descripcion VARCHAR(255),
+  descripcion TEXT,
   tamano INT NOT NULL,
   previsualizaciones INT NOT NULL,
   descargas INT NOT NULL,
@@ -66,12 +63,10 @@ CREATE TABLE portalAyuntDB.files (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 -- Creación de la tabla 'file_palabrasClave'
-
-DROP TABLE IF EXISTS portalAyuntDB.file_palabras_clave;
-CREATE TABLE portalAyuntDB.file_palabras_Clave (
+CREATE TABLE portalAyuntDB.file_palabras_clave (
   file_id CHAR(36) NOT NULL,
   palabras_clave VARCHAR(255) NOT NULL,
-  PRIMARY KEY (file_id, palabrasClave),
+  PRIMARY KEY (file_id, palabras_clave),
   FOREIGN KEY (file_id) REFERENCES portalAyuntDB.files (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -129,7 +124,7 @@ VALUES
   ('b70669c6-7f9e-4ab0-b53f-446655440000', '2023-06-06', 'File 6', 'Description 6', 15, 750, 1500, 'activo', '550e8400-e29b-41d4-a716-446655440011', '550e8400-e29b-41d4-a716-446655440012'),
   ('ed679d07-4417-4e76-9ff9-446655440000', '2023-06-07', 'File 7', 'Description 7', 9, 450, 900, 'pendiente', '550e8400-e29b-41d4-a716-446655440013', '550e8400-e29b-41d4-a716-446655440014'),
   ('b4300a45-2433-4b8b-bf04-446655440000', NOW(), 'File 8', 'Description 8', 7,  300, 600, 'activo', '550e8400-e29b-41d4-a716-446655440015', '550e8400-e29b-41d4-a716-446655440016'),
-  ('e7423ef2-1f01-4a5e-9e48-446655440000', NOW(), 'File 9', 'Description 9', 11, 800, 400, 'downloads9.zip', 'pendiente', '550e8400-e29b-41d4-a716-446655440017', '550e8400-e29b-41d4-a716-446655440018'),
+  ('e7423ef2-1f01-4a5e-9e48-446655440000', NOW(), 'File 9', 'Description 9', 11, 800, 400, 'pendiente', '550e8400-e29b-41d4-a716-446655440017', '550e8400-e29b-41d4-a716-446655440018'),
   ('e7c4f605-8a36-4a07-93d5-446655440000', NOW(), 'File 10', 'Description 10', 4, 450, 200, 'activo', '550e8400-e29b-41d4-a716-446655440019', '550e8400-e29b-41d4-a716-446655440020');
 
 /*!40000 ALTER TABLE ficheros ENABLE KEYS */;
@@ -138,7 +133,7 @@ UNLOCK TABLES;
 -- Inserción de datos en la tabla 'fichero_palabrasClave'
 LOCK TABLES fichero_palabrasClave WRITE;
 /*!40000 ALTER TABLE fichero_palabrasClave DISABLE KEYS */;
-INSERT INTO portalAyuntDB.file_palabrasClave (file_id, palabrasClave)
+INSERT INTO portalAyuntDB.file_palabrasClave (file_id, palabras_clave)
 VALUES
   ('550e8400-e29b-41d4-a716-446655440000', 'keyword1, keyword2'),
   ('c5f86a9f-5c8f-47ad-89f6-446655440000', 'keyword3, keyword4'),
