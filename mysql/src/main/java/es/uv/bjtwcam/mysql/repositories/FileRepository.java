@@ -13,16 +13,12 @@ import es.uv.bjtwcam.mysql.domain.File.Estado;
 
 public interface FileRepository extends JpaRepository<File, UUID> {
 
-    List<File> findAllByfileStatus(Estado estado);
+    List<File> findAllByEstado(Estado estado);
 
-    @Query("SELECT f, p "+
-           "FROM File f JOIN f.productor p "+
-           "ORDER BY f.previsualizaciones DESC, f.descargas DESC")
+    @Query("SELECT f, p FROM File f JOIN f.productor p ORDER BY f.previsualizaciones DESC, f.descargas DESC LIMIT 10")
     List<Object[]> findTop10FilesWithMostViewsAndDownloads();
 
-    @Query("SELECT f " +
-           "FROM File f JOIN f.validador v JOIN f.productor p " +
-           "WHERE v.id = :validadorId AND p.id = :productorId")
+    @Query("SELECT f FROM File f JOIN f.validador v JOIN f.productor p WHERE v.id = :validadorId AND p.id = :productorId")
     List<File> findValidatedFilesByValidatorAndProducer(
         @Param("validadorId") String validadorId, 
         @Param("productorId") String productorId);

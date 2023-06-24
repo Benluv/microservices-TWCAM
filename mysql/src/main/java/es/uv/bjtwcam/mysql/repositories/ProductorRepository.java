@@ -24,8 +24,9 @@ public interface ProductorRepository extends JpaRepository<Productor, UUID> {
     @Query("SELECT p.estado, COUNT(p) FROM Productor p GROUP BY p.estado")
     List<Object[]> countProductorsByEstado();
 
-    @Query("SELECT p FROM Productor p JOIN p.files f GROUP BY p HAVING COUNT(f) > 5")
+    @Query("SELECT p FROM Productor p WHERE (SELECT COUNT(f) FROM File f WHERE f.productor.id = p.id) > 5")
     List<Productor> findProductorsWithMoreThan5Files();
+
     
     //Was attempting to make this work to have a generic way to search by any field but it didn't work
     //Like the idea though so I'll leave it here
