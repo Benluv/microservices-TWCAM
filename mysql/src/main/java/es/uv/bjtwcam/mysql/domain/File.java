@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -45,8 +46,9 @@ public class File {
     private Integer tamano;
 
     @ElementCollection
+    @CollectionTable(name = "file_palabras_clave", joinColumns = @JoinColumn(name = "file_id"), schema="portalAyuntDB")
     @Column(name = "palabras_clave")
-    private List<String> palabra;
+    private List<String> palabras;
 
     @Column(nullable = false)
     private Integer previsualizaciones;

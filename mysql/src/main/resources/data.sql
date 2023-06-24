@@ -67,10 +67,10 @@ CREATE TABLE portalAyuntDB.files (
 
 -- Creación de la tabla 'file_palabrasClave'
 
-DROP TABLE IF EXISTS portalAyuntDB.file_palabrasClave;
-CREATE TABLE portalAyuntDB.file_palabrasClave (
+DROP TABLE IF EXISTS portalAyuntDB.file_palabras_clave;
+CREATE TABLE portalAyuntDB.file_palabras_Clave (
   file_id CHAR(36) NOT NULL,
-  palabrasClave VARCHAR(255) NOT NULL,
+  palabras_clave VARCHAR(255) NOT NULL,
   PRIMARY KEY (file_id, palabrasClave),
   FOREIGN KEY (file_id) REFERENCES portalAyuntDB.files (id)
 )ENGINE=InnoDB DEFAULT CHARSET=latin1;
