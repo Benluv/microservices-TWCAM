@@ -2,42 +2,27 @@ package es.uv.bjtwcam.productores.domain;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Data;
 
-@Entity
 @Data
-@Table(name = "productores", schema="portalAyuntDB")
 public class Productor implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
-    @Column(nullable = false, length = 9, unique = true)
+    private UUID id;
+
     private String nif;
 
-    @Column(nullable = false, length = 50)
     private String nombre;
 
-    @Column(nullable = false)
     private Tipo tipo;
 
-    @Column(nullable = false)
     private Estado estado;
 
-    @Column(nullable = false, name = "cuota_anual")
     private Integer cuota;
 
-    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
     public void setApproved() {

@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import es.uv.bjtwcam.productores.domain.Productor;
 import es.uv.bjtwcam.productores.objects.AuthenticatedProductor;
 import es.uv.bjtwcam.productores.objects.ProductorDTO;
-import es.uv.bjtwcam.productores.services.ProductorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
@@ -29,9 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/productor")
 public class RegistroController {
     
-    @Autowired 
-    private ProductorService ps;
-
     @Autowired
     private RestTemplate template;
 

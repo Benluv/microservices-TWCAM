@@ -4,30 +4,41 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import es.uv.bjtwcam.productores.domain.Productor;
-import es.uv.bjtwcam.productores.repositories.ProductorRepository;
-import jakarta.transaction.Transactional;
 
 
 @Service
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
+	
+	@Autowired
+    private RestTemplate template;
 
-	@Autowired 
-	ProductorRepository repo;
 	
 	@Override
 	public UserDetails loadUserByUsername(String nif) throws UsernameNotFoundException {
-		Productor user = repo.findByNif(nif).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-		return new org.springframework.security.core.userdetails.User(user.getNif(), 
-														              user.getPassword(),
+		
+	
+		ResponseEntity<Productor> response;
+		String url = "http://localhost:3307/api/v1/productor";
+		try {
+			response = template.getForEntity(url + "?id=" + nif, Productor.class);
+		} catch (Exception e) {
+			throw new UsernameNotFoundException("User not found");
+		}
+
+		return new org.springframework.security.core.userdetails.User(response.getBody().getNif(), 
+														              response.getBody().getPassword(),
 														              getAuthorities());
     }
 
