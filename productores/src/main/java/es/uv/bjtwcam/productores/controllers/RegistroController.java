@@ -1,11 +1,7 @@
 package es.uv.bjtwcam.productores.controllers;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
 
 import es.uv.bjtwcam.productores.domain.Productor;
 import es.uv.bjtwcam.productores.objects.AuthenticatedProductor;
@@ -38,6 +35,17 @@ public class RegistroController {
 
     @Autowired
     AnalyticsService as;
+
+    @Autowired
+    private RestTemplate template;
+
+    @Value("${productores.url}")
+    private String api;
+
+    @GetMapping("status")
+	public ResponseEntity<String> status(){
+		return new ResponseEntity<String>("Running", HttpStatus.OK);
+	}
 
     @GetMapping("authenticated")
 	@SecurityRequirement(name = "Bearer Authentication")
@@ -62,50 +70,48 @@ public class RegistroController {
         return "Se obtiene el productor: "+ id;
     }
 
-    @GetMapping
-    @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(summary="Obtener listado de productores", description="Obtener listado de productores, si no se indica ningun filtro se devuelven todos")
-    public ResponseEntity<List<Productor>> getProductores(@RequestParam(name = "param", required = false) String param) {
-        //check if param matches a Productor field
-        if (param != null) {
-            //get names from Productor
-            Field[] fields = Productor.class.getDeclaredFields();
-            List<String> fieldList = Arrays.stream(fields).map(Field::getName).collect(Collectors.toList());
-            //check if param matches a Productor field
-            for (String field : fieldList) {
-                if (param.equals(field)) {
-                    log.info("Obteniendo productores por " + param);
-                    return new ResponseEntity<List<Productor>>(ps.findAllByField(field, param), HttpStatus.OK);
-                }
-            }
-        }
-
-        log.info("Obteniendo todos los productores");
-        return new ResponseEntity<List<Productor>>(ps.findAll(), HttpStatus.OK);
-    }
-
-
     @PostMapping()
     @Operation(summary="Crear nuevo productor", description="Solicitud de registro de un nuevo productor (No Auth)")
     public ResponseEntity<Productor> createProductor(@RequestBody Productor productor) {
-        log.info("creando Productor: " + productor);
-        // insert productor into db
-        Productor p = ps.insert(productor);
-        if (p != null) {
-            return new ResponseEntity<Productor>(p, HttpStatus.CREATED);
+        
+        ResponseEntity<Productor> response; 
+        if(api == null) {
+            api = "http://localhost:3307/api/v1/productor";
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        log.info("creando Productor: " + productor);
+        try {
+            response = template.postForEntity(api, productor, Productor.class);
+        } catch (ResourceAccessException e) {
+            log.error("Error al crear el productor: " + e.getMessage());
+            return new ResponseEntity<>(new Productor(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        if (response.getStatusCode() == HttpStatus.CREATED) {
+            return new ResponseEntity<Productor>(response.getBody(), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(new Productor(), HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")
 	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor")
-    public String modifyUser(@PathVariable("id") String id, @RequestBody ProductorDTO productor) {
-        log.info("modifyUser: " + id);
-        // update productor into db
-        ps.update(id, productor);
-        return "Productor modificado correctamente";
-    }
+    public ResponseEntity<Productor> modifyUser(@PathVariable("id") String id, @RequestBody ProductorDTO productor) {
+        
+        Productor response;
+        if(api == null) {
+            api = "http://localhost:3307/api/v1/productor";
+        }
+        try {
+            response = template.patchForObject(api + id, productor, Productor.class);
+        } catch (ResourceAccessException e) {
+            log.error("Error al modificar el productor: " + e.getMessage());
+            return new ResponseEntity<>(new Productor(), HttpStatus.SERVICE_UNAVAILABLE);
+        } 
+        if (response != null) {
+            return new ResponseEntity<Productor>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(new Productor(), HttpStatus.BAD_REQUEST);
+
+        }
 
 }
 
