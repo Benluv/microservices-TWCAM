@@ -31,7 +31,7 @@ public class ValidarController {
     private String api;
     
 	@GetMapping("status")
-	public ResponseEntity<String> test(){
+	public ResponseEntity<String> status(){
 		return new ResponseEntity<String>("Running", HttpStatus.OK);
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,11 @@ public class RegistroController {
     
     @Autowired 
     private ProductorService ps;
+
+    @GetMapping("status")
+	public ResponseEntity<String> status(){
+		return new ResponseEntity<String>("Running", HttpStatus.OK);
+	}
 
     /*
      * This should be added in the productor Service
@@ -72,11 +78,11 @@ public class RegistroController {
     @PutMapping("/{id}")
 	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor")
-    public String modifyUser(@PathVariable("id") String id, @RequestBody Productor productor) {
+    public ResponseEntity<Productor> modifyUser(@PathVariable("id") String id, @RequestBody Productor productor) {
         log.info("modifyUser: " + id);
         // update productor into db
         ps.update(id, productor);
-        return "Productor modificado correctamente";
+        return new ResponseEntity<Productor>(productor, HttpStatus.OK);
     }
 
 }
