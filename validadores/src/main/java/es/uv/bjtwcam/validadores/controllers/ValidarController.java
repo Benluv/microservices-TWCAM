@@ -2,10 +2,11 @@ package es.uv.bjtwcam.validadores.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +20,6 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import es.uv.bjtwcam.validadores.objects.ProductorDTO;
-import es.uv.bjtwcam.validadores.services.ValidadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,9 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/validador")
 @Slf4j
 public class ValidarController {
-
-    @Autowired
-    private ValidadorService vs;
 
 	@Autowired
     private RestTemplate template;
@@ -44,22 +41,24 @@ public class ValidarController {
 
     @GetMapping({"/{id}"})
     @Operation(summary="Obtener productor", description="Obtener la informacion de un productor por su id")
-    public ResponseEntity<ProductorDTO> getProductor(@PathVariable(name="id") UUID id) {
+    public ResponseEntity<ProductorDTO> getProductor(@PathVariable(name="id") String id) {
 		ResponseEntity<ProductorDTO> response; 
-        String url = "http://localhost:8080/api/v1/productor";
-            try {
-                response = template.getForEntity(url+"/"+ id, ProductorDTO.class);
-            } 
-            catch (ResourceAccessException e) {
-                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
-            }
-            if(response.getStatusCode() == HttpStatus.OK) {
-                log.info("Obteniendo productor con id: {}", id);
-                return new ResponseEntity<ProductorDTO>(response.getBody(), HttpStatus.OK);
-            } else {
-                log.error("No existe el productor con id: {}", id);
-                return ResponseEntity.notFound().build();
-            }
+        if(api == null) {
+            api = "http://localhost:8080/api/v1/productor";
+        }
+        try {
+            response = template.getForEntity(api+"/"+ id, ProductorDTO.class);
+        } 
+        catch (ResourceAccessException e) {
+            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        if(response.getStatusCode() == HttpStatus.OK) {
+            log.info("Obteniendo productor con id: {}", id);
+            return new ResponseEntity<ProductorDTO>(response.getBody(), HttpStatus.OK);
+        } else {
+            log.error("No existe el productor con id: {}", id);
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping
@@ -74,134 +73,183 @@ public class ValidarController {
         @RequestParam(name = "cuota", required = false) String cuota
     ) {
         List<ProductorDTO> p = new ArrayList<ProductorDTO>();
-		ResponseEntity<ProductorDTO> response; 
-        String url = api;
+		ResponseEntity<List<ProductorDTO>> response; 
+        if(api == null) {
+            api = "http://localhost:8080/api/v1/productor";
+        }
 
         //check if no parameters are passed
         if (id.isBlank() && nif.isBlank() && name.isBlank() && email.isBlank() && type.isBlank() && estado.isBlank() && cuota.isBlank()) {
             log.info("Obteniendo todos los productores");
-            p =  this.vs.findAll();
-            return new ResponseEntity<List<ProductorDTO>>(p, HttpStatus.OK);
-        }
-
-        //Filtrar por id
-        if (!id.isBlank()) {
             try {
-                response = template.getForEntity(url+"/"+ id, ProductorDTO.class);
+                response = template.exchange(
+                    api,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<ProductorDTO>>(){}
+                );
             } 
             catch (ResourceAccessException e) {
                 return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
             if(response.getStatusCode() == HttpStatus.OK) {
-                log.info("Obteniendo productor con id: {}", id);
-                p.add(response.getBody());
-                return new ResponseEntity<List<ProductorDTO>>(p, HttpStatus.OK);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.OK);
             } else {
-                log.error("No existe el productor con id: {}", id);
-                return ResponseEntity.notFound().build();
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.BAD_REQUEST);
             }
-            // UUID id_ = null;
-            // try {
-            //     log.info("Obteniendo productor con id: {}", id);
-            //     id_ = UUID.fromString(id);
-            //     if (p.add(vs.findById(id_))) {
-            //         return new ResponseEntity<List<Productor>>(p, HttpStatus.OK);
-            //     } else {
-            //         log.error("No existe el productor con id: {}", id);
-            //         return ResponseEntity.notFound().build();
-            //     }
-            // } catch (IllegalArgumentException e) {
-            //     log.error("El id no es un UUID valido: {}", id);
-            //     return ResponseEntity.badRequest().build();
-            // }
         }
 
-        //Filtrar por nif
-        else if (!nif.isBlank()) {
-            url += "?nif=" + nif;
+        //Filtrar por id
+        if (!id.isBlank()) {
             try {
-                //should maybe think to use ProductorDTO instead of productor
-                response = template.getForEntity(url, ProductorDTO.class);
-                if(response.getBody() != null ) {
-                    log.info("Obteniendo productor con nif: {}", nif);
-                    p.add(response.getBody());
-                    return new ResponseEntity<List<ProductorDTO>>(p, HttpStatus.OK);
-                } else {
-                    log.error("No existe el productor con nif: {}", nif);
-                    return ResponseEntity.notFound().build();
-                }
+                response = template.exchange(
+                    api+"/"+ id,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<ProductorDTO>>(){}
+                );
             } 
             catch (ResourceAccessException e) {
                 return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
             }
+            if(response.getStatusCode().is2xxSuccessful()) {
+                log.info("Obteniendo productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.OK);
+            } else {
+                log.error("No existe el productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.NOT_FOUND);
+            }
+        }
 
-            // log.info("Obteniendo productor con nif: {}", nif);
-            // Productor byNif = vs.findByNif(nif);
-            // if (byNif != null) {
-            //     p.add(byNif);
-            // } else {
-            //     log.error("No existe el productor con nif: {}", nif);
-            //     return ResponseEntity.notFound().build();
-            // }
+        //Filtrar por nif
+        else if (!nif.isBlank()) {
+            try {
+                response = template.exchange(
+                    api+"?nif="+ nif,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<ProductorDTO>>(){}
+                );
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(response.getStatusCode().is2xxSuccessful()) {
+                log.info("Obteniendo productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.OK);
+            } else {
+                log.error("No existe el productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.NOT_FOUND);
+            }
         }
 
         //Filtrar por name
         else if (!name.isBlank()) {
-            log.info("Obteniendo productor con name: {}", name);
-            ProductorDTO byName = vs.findByName(name);
-            if (byName != null) {
-                p.add(byName);
+            try {
+                response = template.exchange(
+                    api+"?name="+ name,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<ProductorDTO>>(){}
+                );
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(response.getStatusCode().is2xxSuccessful()) {
+                log.info("Obteniendo productor con id: {}", id);
+                p.addAll(response.getBody());
             } else {
-                log.error("No existe el productor con name: {}", name);
-                return ResponseEntity.notFound().build();
+                log.error("No existe el productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.NOT_FOUND);
             }
         }
 
         //Filtrar por email
         else if (!email.isBlank()) {
-            log.info("Obteniendo productor con email: {}", email);
-            ProductorDTO byEmail = vs.findByEmail(email);
-            if (byEmail != null) {
-                p.add(byEmail);
+            try {
+                response = template.exchange(
+                    api+"?email="+ email,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<ProductorDTO>>(){}
+                );
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(response.getStatusCode().is2xxSuccessful()) {
+                log.info("Obteniendo productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.OK);
             } else {
-                log.error("No existe el productor con email: {}", email);
-                return ResponseEntity.notFound().build();
+                log.error("No existe el productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.NOT_FOUND);
             }
         }
 
         //Filtrar por type
         else if (!type.isBlank()) {
-            log.info("Obteniendo productor con type: {}", type);
-            ProductorDTO byType = vs.findByType(type);
-            if (byType != null) {
-                p.add(byType);
+            try {
+                response = template.exchange(
+                    api+"?type="+ type,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<ProductorDTO>>(){}
+                );
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(response.getStatusCode().is2xxSuccessful()) {
+                log.info("Obteniendo productor con id: {}", id);
+                p.addAll(response.getBody());
             } else {
-                log.error("No existe el productor con type: {}", type);
-                return ResponseEntity.notFound().build();
+                log.error("No existe el productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.NOT_FOUND);
             }
         }
 
         //Filtrar por estado
         else if (!estado.isBlank()) {
-            log.info("Obteniendo productor con estado: {}", estado);
-            ProductorDTO byEstado = vs.findByEstado(estado);
-            if (byEstado != null) {
-                p.add(byEstado);
+            try {
+                response = template.exchange(
+                    api+"?estado="+ estado,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<ProductorDTO>>(){}
+                );
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(response.getStatusCode().is2xxSuccessful()) {
+                log.info("Obteniendo productor con id: {}", id);
+                p.addAll(response.getBody());
             } else {
-                log.error("No existe el productor con estado: {}", estado);
-                return ResponseEntity.notFound().build();
+                log.error("No existe el productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.NOT_FOUND);
             }
         }
 
         //Filtrar por cuota
         else if (!cuota.isBlank()) {
-            log.info("Obteniendo productor con cuota: {}", cuota);
-            ProductorDTO byCuota = vs.findByCuotaAnual(cuota);
-            if (byCuota != null) {
-                p.add(byCuota);
+            try {
+                response = template.exchange(
+                    api+"?cuota="+ cuota,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<ProductorDTO>>(){}
+                );
+            } 
+            catch (ResourceAccessException e) {
+                return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+            }
+            if(response.getStatusCode().is2xxSuccessful()) {
+                log.info("Obteniendo productor con id: {}", id);
+                p.addAll(response.getBody());
             } else {
-                log.error("No existe el productor con cuota: {}", cuota);
-                return ResponseEntity.notFound().build();
+                log.error("No existe el productor con id: {}", id);
+                return new ResponseEntity<List<ProductorDTO>>(response.getBody(), HttpStatus.NOT_FOUND);
             }
         }
         
@@ -211,59 +259,70 @@ public class ValidarController {
     @PutMapping("/aprobar/{id}")
     @Operation(summary="Aprobar un nuevo productor", description="Se indicara el identificador del productor y la cuota anual")
     public ResponseEntity<ProductorDTO> aprobarProductor(
-        @PathVariable("id") UUID id,
+        @PathVariable("id") String id,
         @RequestParam(name = "cuota", required = true) String cuotaAnual
         ) {
-        //check if id exists
-        ProductorDTO p = vs.findById(id);
-        Integer cuota = 0;
-        if (p == null) {
-            log.error("No existe el productor con id: {}", id);
-            return ResponseEntity.notFound().build();
+            
+        if(api == null) {
+            api = "http://localhost:8080/api/v1/productor/aprobar";
         }
-        //check if cuota is a float
+        ResponseEntity<ProductorDTO> response;    
+        log.info("Aprobando productor");
         try {
-            cuota = Integer.parseInt(cuotaAnual);
-        } catch (NumberFormatException e) {
-            log.error("La cuota no es un numero valido: {}", cuotaAnual);
-            return ResponseEntity.badRequest().build();
+            response = template.exchange(
+                api + "/" + id + "?cuota=" + cuotaAnual,
+                HttpMethod.PUT,
+                null,
+                new ParameterizedTypeReference<ProductorDTO>(){}
+            );
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
         }
-
-        log.debug("Aprobando productor");
-        vs.aprobarProductor(p);
-        p.setCuota(cuota);
-        vs.updateProductor(p);
-        return ResponseEntity.ok(p);
+        if(response.getStatusCode().is2xxSuccessful()) {
+            return new ResponseEntity<ProductorDTO>(response.getBody(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<ProductorDTO>(response.getBody(), HttpStatus.BAD_REQUEST);
+        }
     }
     
     @PutMapping("/{id}")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor.Se podra actualizar cualquier campo del productor a traves de su identificador")
-    public ResponseEntity<ProductorDTO> updateProductor(@PathVariable("id") UUID id) {
-        //check if id exists
-        ProductorDTO p = vs.findById(id);
-        if (p == null) {
-            log.error("No existe el productor con id: {}", id);
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<ProductorDTO> updateProductor(@PathVariable("id") String id) {
+        if(api == null) {
+            api = "http://localhost:8080/api/v1/productor";
         }
-
-        log.debug("Actualizando productor");
-        vs.updateProductor(p);
-        return ResponseEntity.ok(p);
+        ResponseEntity<ProductorDTO> response;
+        log.info("Actualizando productor");
+        try {
+            response = template.exchange(
+                api + "/" + id,
+                HttpMethod.PUT,
+                null,
+                new ParameterizedTypeReference<ProductorDTO>(){}
+            );
+        } catch (ResourceAccessException e) {
+            return new ResponseEntity<ProductorDTO>(HttpStatus.SERVICE_UNAVAILABLE);
+        }
+        if(response.getStatusCode().is2xxSuccessful()) {
+            return new ResponseEntity<ProductorDTO>(response.getBody(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<ProductorDTO>(response.getBody(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary="Eliminar un productor", description="Se indicara el identificador del productor a eliminar")
-    public ResponseEntity<String> deleteProductor(@PathVariable("id") UUID id) {
-        //check if id exists
-        ProductorDTO p = vs.findById(id);
-        if (p == null) {
-            log.error("No existe el productor con id: {}", id);
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<String> deleteProductor(@PathVariable("id") String id) {
+        if(api == null) {
+            api = "http://localhost:8080/api/v1/productor";
         }
-        
-        log.debug("Eliminando productor");
-        vs.deleteProductor(p);
-        return ResponseEntity.ok("Productor eliminado");
+        try {
+            template.delete(api + "/" + id);
+            return new ResponseEntity<String>("Productor eliminado", HttpStatus.OK);
+        }
+        catch (ResourceAccessException e) {
+            return new ResponseEntity<String>("Error al eliminar el productor", HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 }
 
