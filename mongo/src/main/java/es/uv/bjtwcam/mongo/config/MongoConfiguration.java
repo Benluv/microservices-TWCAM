@@ -33,7 +33,7 @@ public class MongoConfiguration extends AbstractMongoClientConfiguration {
     @Override
     public MongoClient mongoClient() {
         ConnectionString connectionString = new ConnectionString(mongoUri);
-        MongoCredential mongoCredential = MongoCredential.createCredential(username, mongoDatabase, password.toCharArray());
+        MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(username, mongoDatabase, password.toCharArray());
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .credential(mongoCredential)

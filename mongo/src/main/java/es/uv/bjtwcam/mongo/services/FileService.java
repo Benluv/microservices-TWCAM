@@ -28,7 +28,7 @@ public class FileService {
     public File create(File file) {
         File fileMongo = fr.save(file);
         
-		System.out.println("Se copiara: "+fileMongo.getId()+" "+fileMongo.getTitulo()+" "+fileMongo.getTamano()+" "+fileMongo.getDescripcion());
+		System.out.println("Se copiara: "+fileMongo.getId()+" "+fileMongo.getTitulo());
         
         return fileMongo;
     }
@@ -45,18 +45,16 @@ public class FileService {
         return this.fr.findById(id).orElse(null);
     }
 
-	public void addDataFileToMongoDB(String title, String filesize,String description, List<String> keywords, List<Object> data) {
+	public void addDataFileToMongoDB(String title, List<Object> data) {
 
         File file = new File();
 
 		file.setTitulo(title);
-		file.setDescripcion(description);
-		file.setPalabras(keywords);
 		file.setData(data);
         
 		File fileMongo = fr.save(file);
 		mongoTemplate.insert(fileMongo, FILE_COLLECTION);		
        
-		System.out.println("Se copiara: "+fileMongo.getId()+" "+fileMongo.getTitulo()+" "+fileMongo.getTamano()+" "+fileMongo.getDescripcion());
+		System.out.println("Se copiara: "+fileMongo.getId()+" "+fileMongo.getTitulo());
     }
 }

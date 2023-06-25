@@ -1,0 +1,227 @@
+[
+    {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "titulo": "File 1",
+        "data": [
+            {
+                "tipo": "imagen",
+                "url": "https://ejemplo.com/imagen1.jpg",
+                "metadata": {
+                    "resolucion": "1920x1080",
+                    "formato": "JPEG"
+                }
+            },
+            {
+                "tipo": "documento",
+                "url": "https://ejemplo.com/documento1.pdf",
+                "metadata": {
+                    "tamaño": "5MB",
+                    "paginas": 10
+                }
+            }
+        ]
+    },
+    {
+        "id": "c5f86a9f-5c8f-47ad-89f6-446655440000",
+        "titulo": "File 2",
+        "data": [
+            {
+                "tipo": "video",
+                "url": "https://ejemplo.com/video1.mp4",
+                "metadata": {
+                    "resolucion": "1280x720",
+                    "formato": "MP4",
+                    "duración": "00:10:30"
+                }
+            },
+            {
+                "tipo": "audio",
+                "url": "https://ejemplo.com/audio1.mp3",
+                "metadata": {
+                    "duración": "00:03:45",
+                    "bitrate": "320kbps"
+                }
+            }
+        ]
+    },
+    {
+        "id": "8c55ec4b-80c2-4c3a-b0df-446655440000",
+        "titulo": "File 3",
+        "data": [
+            {
+                "tipo": "imagen",
+                "url": "https://ejemplo.com/imagen3.jpg",
+                "metadata": {
+                    "resolucion": "2560x1440",
+                    "formato": "JPEG"
+                }
+            },
+            {
+                "tipo": "documento",
+                "url": "https://ejemplo.com/documento3.docx",
+                "metadata": {
+                    "tamaño": "2MB",
+                    "paginas": 5
+                }
+            }
+        ]
+    },
+    {
+        "id": "f63252d2-45d3-40c9-80e5-446655440000",
+        "titulo": "File 4",
+        "data": [
+            {
+                "tipo": "video",
+                "url": "https://ejemplo.com/video4.mp4",
+                "metadata": {
+                    "resolucion": "1920x1080",
+                    "formato": "MP4",
+                    "duración": "00:15:20"
+                }
+            },
+            {
+                "tipo": "audio",
+                "url": "https://ejemplo.com/audio4.mp3",
+                "metadata": {
+                    "duración": "00:04:30",
+                    "bitrate": "256kbps"
+                }
+            }
+        ]
+    },
+    {
+        "id": "1c3274bc-b4d9-4cfd-b0e9-446655440000",
+        "titulo": "File 5",
+        "data": [
+            {
+                "tipo": "imagen",
+                "url": "https://ejemplo.com/imagen5.png",
+                "metadata": {
+                    "resolucion": "1920x1080",
+                    "formato": "PNG"
+                }
+            },
+            {
+                "tipo": "documento",
+                "url": "https://ejemplo.com/documento5.pdf",
+                "metadata": {
+                    "tamaño": "1.5MB",
+                    "paginas": 3
+                }
+            }
+        ]
+    },
+    {
+        "id": "b70669c6-7f9e-4ab0-b53f-446655440000",
+        "titulo": "File 6",
+        "data": [
+            {
+                "tipo": "video",
+                "url": "https://ejemplo.com/video6.mov",
+                "metadata": {
+                    "resolucion": "3840x2160",
+                    "formato": "MOV",
+                    "duración": "00:05:45"
+                }
+            },
+            {
+                "tipo": "audio",
+                "url": "https://ejemplo.com/audio6.wav",
+                "metadata": {
+                    "duración": "00:02:15",
+                    "bitrate": "128kbps"
+                }
+            }
+        ]
+    },
+    {
+        "id": "ed679d07-4417-4e76-9ff9-446655440000",
+        "titulo": "File 7",
+        "data": [
+            {
+                "tipo": "imagen",
+                "url": "https://ejemplo.com/imagen7.jpg",
+                "metadata": {
+                    "resolucion": "800x600",
+                    "formato": "JPEG"
+                }
+            },
+            {
+                "tipo": "documento",
+                "url": "https://ejemplo.com/documento7.txt",
+                "metadata": {
+                    "tamaño": "100KB",
+                    "paginas": 1
+                }
+            }
+        ]
+    },
+    {
+        "id": "b4300a45-2433-4b8b-bf04-446655440000",
+        "titulo": "File 8",
+        "data": [
+            {
+                "tipo": "video",
+                "url": "https://ejemplo.com/video8.mp4",
+                "metadata": {
+                    "resolucion": "1280x720",
+                    "formato": "MP4",
+                    "duración": "00:07:30"
+                }
+            },
+            {
+                "tipo": "audio",
+                "url": "https://ejemplo.com/audio8.mp3",
+                "metadata": {
+                    "duración": "00:03:15",
+                    "bitrate": "192kbps"
+                }
+            }
+        ]
+    },
+    {
+        "id": "e7423ef2-1f01-4a5e-9e48-446655440000",
+        "titulo": "File 9",
+        "data": [
+            {
+                "tipo": "imagen",
+                "url": "https://ejemplo.com/imagen9.png",
+                "metadata": {
+                    "resolucion": "1024x768",
+                    "formato": "PNG"
+                }
+            },
+            {
+                "tipo": "documento",
+                "url": "https://ejemplo.com/documento9.docx",
+                "metadata": {
+                    "tamaño": "3MB",
+                    "paginas": 8
+                }
+            }
+        ]
+    },
+    {
+        "id": "e7c4f605-8a36-4a07-93d5-446655440000",
+        "titulo": "File 10",
+        "data": [
+            {
+                "tipo": "video",
+                "url": "https://ejemplo.com/video10.mp4",
+                "metadata": {
+                    "resolucion": "1920x1080",
+                    "formato": "MP4",
+                    "duración": "00:12:40"
+                }
+            },
+            {
+                "tipo": "audio",
+                "url": "https://ejemplo.com/audio10.wav",
+                "metadata": {
+                    "duración": "00:06:20",
+                    "bitrate": "320kbps"
+                }
+            }
+        ]
+    }
+]
