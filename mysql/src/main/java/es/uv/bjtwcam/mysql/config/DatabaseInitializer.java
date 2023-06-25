@@ -2,7 +2,6 @@ package es.uv.bjtwcam.mysql.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import es.uv.bjtwcam.mysql.domain.Productor;
@@ -10,6 +9,9 @@ import es.uv.bjtwcam.mysql.repositories.ProductorRepository;
 import es.uv.bjtwcam.mysql.domain.Productor.Estado;
 import es.uv.bjtwcam.mysql.domain.Productor.Tipo;
 
+/*
+ * deprecated
+ */
 @Component
 public class DatabaseInitializer implements CommandLineRunner {
     
