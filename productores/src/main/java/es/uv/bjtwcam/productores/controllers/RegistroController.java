@@ -2,6 +2,7 @@ package es.uv.bjtwcam.productores.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -86,18 +87,23 @@ public class RegistroController {
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor")
     public ResponseEntity<Productor> modifyUser(@PathVariable("id") String id, @RequestBody ProductorDTO productor) {
         
-        Productor response;
+        ResponseEntity<Productor> response;
         if(api == null) {
             api = "http://localhost:3307/api/v1/productor";
         }
         try {
-            response = template.patchForObject(api + id, productor, Productor.class);
+            response = template.exchange(
+                api + "/" + id, 
+                HttpMethod.PUT,
+                null,
+                Productor.class
+                );
         } catch (ResourceAccessException e) {
             log.error("Error al modificar el productor: " + e.getMessage());
             return new ResponseEntity<>(new Productor(), HttpStatus.SERVICE_UNAVAILABLE);
         } 
         if (response != null) {
-            return new ResponseEntity<Productor>(response, HttpStatus.OK);
+            return new ResponseEntity<Productor>(response.getBody(), HttpStatus.OK);
         }
         return new ResponseEntity<>(new Productor(), HttpStatus.BAD_REQUEST);
 

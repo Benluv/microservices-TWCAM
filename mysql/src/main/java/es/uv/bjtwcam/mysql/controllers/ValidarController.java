@@ -174,17 +174,21 @@ public class ValidarController {
         ) {
         //check if id exists
         Productor p = ps.findById(id);
-        Integer cuota = 0;
+        Integer cuota;
+        if (cuotaAnual == null) {
+            cuota = 0;
+        } else {
+            //check if cuota is a float
+            try {
+                cuota = Integer.parseInt(cuotaAnual);
+            } catch (NumberFormatException e) {
+                log.error("La cuota no es un numero valido: {}", cuotaAnual);
+                return ResponseEntity.badRequest().build();
+            }
+        }
         if (p == null) {
             log.error("No existe el productor con id: {}", id);
             return ResponseEntity.notFound().build();
-        }
-        //check if cuota is a float
-        try {
-            cuota = Integer.parseInt(cuotaAnual);
-        } catch (NumberFormatException e) {
-            log.error("La cuota no es un numero valido: {}", cuotaAnual);
-            return ResponseEntity.badRequest().build();
         }
 
         log.debug("Aprobando productor");
