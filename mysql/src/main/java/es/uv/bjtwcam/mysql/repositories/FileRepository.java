@@ -15,6 +15,8 @@ public interface FileRepository extends JpaRepository<File, UUID> {
 
     List<File> findAllByEstado(Estado estado);
 
+    List<File> findAll();
+
     @Query("SELECT f, p "+
               "FROM File f JOIN f.productor p "+
               "ORDER BY f.previsualizaciones DESC, f.descargas DESC "+

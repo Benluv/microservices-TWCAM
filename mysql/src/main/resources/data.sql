@@ -45,6 +45,7 @@ CREATE TABLE portalAyuntDB.validadores (
 -- Creación de la tabla 'files'
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
+DROP TABLE IF EXISTS portalAyuntDB.files;
 CREATE TABLE portalAyuntDB.files (
   id CHAR(36) NOT NULL UNIQUE,
   fecha_creacion DATE NOT NULL,
@@ -63,6 +64,7 @@ CREATE TABLE portalAyuntDB.files (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 -- Creación de la tabla 'file_palabrasClave'
+DROP TABLE IF EXISTS portalAyuntDB.file_palabras_clave;
 CREATE TABLE portalAyuntDB.file_palabras_clave (
   file_id CHAR(36) NOT NULL,
   palabras_clave VARCHAR(255) NOT NULL,
@@ -73,47 +75,47 @@ CREATE TABLE portalAyuntDB.file_palabras_clave (
 -- Inserción de datos en la tabla 'productores'
 
 LOCK TABLES portalAyuntDB.productores WRITE;
-/*!40000 ALTER TABLE productores DISABLE KEYS */;
+/*!40000 ALTER TABLE portalAyuntDB.productores DISABLE KEYS */;
 INSERT INTO portalAyuntDB.productores (id, nif, nombre, tipo, estado, cuota, email, password)
 VALUES
-  ('550e8400-e29b-41d4-a716-446655440000', '123456789', 'John Doe', 'fisica', 'pendiente', 1, 'john.doe@example.com', '$2a$10$TdfJZFO6Y1kyCU4IZl8wYOtWpeogzvSYkI0NgvXrsfRe9mVi6i4dm'), -- password1
-  ('c5f86a9f-5c8f-47ad-89f6-446655440000', '987654321', 'Alice Smith', 'juridica', 'activo', 0, 'alice.smith@example.com', '$2a$10$7V3z5z9q5CqCwJq/7nnXxeAx14vDzgGIMXHm7ZM85at3l59zE/FwW'),
-  ('8c55ec4b-80c2-4c3a-b0df-446655440000', '345678912', 'Michael Johnson', 'fisica', 'activo', 5, 'michael.johnson@example.com', '$2a$10$BRqXaSEuxmrlFdw7p0snzuRD6eFzFbJ2Zit.A4n15kZvMkJ5A02bW'),
-  ('f63252d2-45d3-40c9-80e5-446655440000', '789123456', 'Emily Davis', 'juridica', 'pendiente', 2, 'emily.davis@example.com', '$2a$10$jDD1YusUqRL9pg5IXaJX6uFJcYNQAKoHNfqTo2hXVIIb.WWj0m0XW'),
-  ('1c3274bc-b4d9-4cfd-b0e9-446655440000', '234567891', 'Daniel Wilson', 'fisica', 'activo', 1, 'daniel.wilson@example.com', '$2a$10$LdPMKT1F0IYLoQmJ4e7yqOh0twfMnWRlzeTVyIJBDG9dMUbLA3AqW'),
-  ('b70669c6-7f9e-4ab0-b53f-446655440000', '678912345', 'Olivia Brown', 'juridica', 'inactivo', 2, 'olivia.brown@example.com', '$2a$10$q5XrGZwV1wt2I2J5sWeBCOxjsLmWJq7i27zn1eEpBPrx6Xx.7gSWC'),
-  ('ed679d07-4417-4e76-9ff9-446655440000', '891234567', 'James Taylor', 'fisica', 'activo', 6, 'james.taylor@example.com', '$2a$10$6M9FqJ4mY2mm51eJYl.k3Oz62rr/Qzns1I1vN9pWnqGW9EqnH0oRa'),
-  ('b4300a45-2433-4b8b-bf04-446655440000', '456789123', 'Sophia Martinez', 'juridica', 'pendiente', 4, 'sophia.martinez@example.com', '$2a$10$dhdI.xIggA0nqIhtWb8v5e0UkzXzVl3hJ7vBdqTnUg2E6j.AMK81q'),
-  ('e7423ef2-1f01-4a5e-9e48-446655440000', '912345678', 'Jacob Anderson', 'fisica', 'activo', 9, 'jacob.anderson@example.com', '$2a$10$yq3d5M3do.EamVstirWTTOib6h.2wQ0IQt62C5FPOX8yINu1.WWDe'),
-  ('e7c4f605-8a36-4a07-93d5-446655440000', '567891234', 'Mia Clark', 'juridica', 'inactivo', 3, 'mia.clark@example.com', '$2a$10$FOhG2LQCKrEp36Cf2ZSnbuvHqM58zqT47Fq/u4P.3XrkMef2qC94m'); -- password10
+  ('550e8400-e29b-41d4-a716-446655440001', '123456789', 'John Doe', 'fisica', 'pendiente', 1, 'john.doe@example.com', '$2a$10$TdfJZFO6Y1kyCU4IZl8wYOtWpeogzvSYkI0NgvXrsfRe9mVi6i4dm'), -- password1
+  ('550e8400-e29b-41d4-a716-446655440003', '987654321', 'Alice Smith', 'juridica', 'activo', 0, 'alice.smith@example.com', '$2a$10$7V3z5z9q5CqCwJq/7nnXxeAx14vDzgGIMXHm7ZM85at3l59zE/FwW'),
+  ('550e8400-e29b-41d4-a716-446655440005', '345678912', 'Michael Johnson', 'fisica', 'activo', 5, 'michael.johnson@example.com', '$2a$10$BRqXaSEuxmrlFdw7p0snzuRD6eFzFbJ2Zit.A4n15kZvMkJ5A02bW'),
+  ('550e8400-e29b-41d4-a716-446655440007', '789123456', 'Emily Davis', 'juridica', 'pendiente', 2, 'emily.davis@example.com', '$2a$10$jDD1YusUqRL9pg5IXaJX6uFJcYNQAKoHNfqTo2hXVIIb.WWj0m0XW'),
+  ('550e8400-e29b-41d4-a716-446655440009', '234567891', 'Daniel Wilson', 'fisica', 'activo', 1, 'daniel.wilson@example.com', '$2a$10$LdPMKT1F0IYLoQmJ4e7yqOh0twfMnWRlzeTVyIJBDG9dMUbLA3AqW'),
+  ('550e8400-e29b-41d4-a716-446655440011', '678912345', 'Olivia Brown', 'juridica', 'inactivo', 2, 'olivia.brown@example.com', '$2a$10$q5XrGZwV1wt2I2J5sWeBCOxjsLmWJq7i27zn1eEpBPrx6Xx.7gSWC'),
+  ('550e8400-e29b-41d4-a716-446655440013', '891234567', 'James Taylor', 'fisica', 'activo', 6, 'james.taylor@example.com', '$2a$10$6M9FqJ4mY2mm51eJYl.k3Oz62rr/Qzns1I1vN9pWnqGW9EqnH0oRa'),
+  ('550e8400-e29b-41d4-a716-446655440015', '456789123', 'Sophia Martinez', 'juridica', 'pendiente', 4, 'sophia.martinez@example.com', '$2a$10$dhdI.xIggA0nqIhtWb8v5e0UkzXzVl3hJ7vBdqTnUg2E6j.AMK81q'),
+  ('550e8400-e29b-41d4-a716-446655440017', '912345678', 'Jacob Anderson', 'fisica', 'activo', 9, 'jacob.anderson@example.com', '$2a$10$yq3d5M3do.EamVstirWTTOib6h.2wQ0IQt62C5FPOX8yINu1.WWDe'),
+  ('550e8400-e29b-41d4-a716-446655440019', '567891234', 'Mia Clark', 'juridica', 'inactivo', 3, 'mia.clark@example.com', '$2a$10$FOhG2LQCKrEp36Cf2ZSnbuvHqM58zqT47Fq/u4P.3XrkMef2qC94m'); -- password10
 
-/*!40000 ALTER TABLE productores ENABLE KEYS */;
+/*!40000 ALTER TABLE portalAyuntDB.productores ENABLE KEYS */;
 UNLOCK TABLES;
 
 -- Inserción de datos en la tabla 'validadores'
 
 LOCK TABLES portalAyuntDB.validadores WRITE;
-/*!40000 ALTER TABLE validadores DISABLE KEYS */;
+/*!40000 ALTER TABLE portalAyuntDB.validadores DISABLE KEYS */;
 INSERT INTO portalAyuntDB.validadores (id, nombre, email, password)
 VALUES
-  ('550e8400-e29b-41d4-a716-446655440000', 'John Doe', 'john.doe@example.com', '$2a$10$TdfJZFO6Y1kyCU4IZl8wYOtWpeogzvSYkI0NgvXrsfRe9mVi6i4dm'), -- password1
-  ('c5f86a9f-5c8f-47ad-89f6-446655440000', 'Alice Smith', 'alice.smith@example.com', '$2a$10$7V3z5z9q5CqCwJq/7nnXxeAx14vDzgGIMXHm7ZM85at3l59zE/FwW'), --password2
-  ('8c55ec4b-80c2-4c3a-b0df-446655440000', 'Michael Johnson', 'michael.johnson@example.com', '$2a$10$BRqXaSEuxmrlFdw7p0snzuRD6eFzFbJ2Zit.A4n15kZvMkJ5A02bW'),
-  ('f63252d2-45d3-40c9-80e5-446655440000', 'Emily Davis', 'emily.davis@example.com', '$2a$10$jDD1YusUqRL9pg5IXaJX6uFJcYNQAKoHNfqTo2hXVIIb.WWj0m0XW'),
-  ('1c3274bc-b4d9-4cfd-b0e9-446655440000', 'Daniel Wilson', 'daniel.wilson@example.com', '$2a$10$LdPMKT1F0IYLoQmJ4e7yqOh0twfMnWRlzeTVyIJBDG9dMUbLA3AqW'),
-  ('b70669c6-7f9e-4ab0-b53f-446655440000', 'Olivia Brown', 'olivia.brown@example.com', '$2a$10$q5XrGZwV1wt2I2J5sWeBCOxjsLmWJq7i27zn1eEpBPrx6Xx.7gSWC'),
-  ('ed679d07-4417-4e76-9ff9-446655440000', 'James Taylor', 'james.taylor@example.com', '$2a$10$6M9FqJ4mY2mm51eJYl.k3Oz62rr/Qzns1I1vN9pWnqGW9EqnH0oRa'),
-  ('b4300a45-2433-4b8b-bf04-446655440000', 'Sophia Martinez', 'sophia.martinez@example.com', '$2a$10$dhdI.xIggA0nqIhtWb8v5e0UkzXzVl3hJ7vBdqTnUg2E6j.AMK81q'),
-  ('e7423ef2-1f01-4a5e-9e48-446655440000', 'Jacob Anderson', 'jacob.anderson@example.com', '$2a$10$yq3d5M3do.EamVstirWTTOib6h.2wQ0IQt62C5FPOX8yINu1.WWDe'),
-  ('e7c4f605-8a36-4a07-93d5-446655440000', 'Mia Clark', 'mia.clark@example.com', '$2a$10$FOhG2LQCKrEp36Cf2ZSnbuvHqM58zqT47Fq/u4P.3XrkMef2qC94m'); -- password10
+  ('550e8400-e29b-41d4-a716-446655440002', 'John Doe', 'john.doe@example.com', '$2a$10$TdfJZFO6Y1kyCU4IZl8wYOtWpeogzvSYkI0NgvXrsfRe9mVi6i4dm'), -- password1
+  ('550e8400-e29b-41d4-a716-446655440004', 'Alice Smith', 'alice.smith@example.com', '$2a$10$7V3z5z9q5CqCwJq/7nnXxeAx14vDzgGIMXHm7ZM85at3l59zE/FwW'), --password2
+  ('550e8400-e29b-41d4-a716-446655440006', 'Michael Johnson', 'michael.johnson@example.com', '$2a$10$BRqXaSEuxmrlFdw7p0snzuRD6eFzFbJ2Zit.A4n15kZvMkJ5A02bW'),
+  ('550e8400-e29b-41d4-a716-446655440008', 'Emily Davis', 'emily.davis@example.com', '$2a$10$jDD1YusUqRL9pg5IXaJX6uFJcYNQAKoHNfqTo2hXVIIb.WWj0m0XW'),
+  ('550e8400-e29b-41d4-a716-446655440010', 'Daniel Wilson', 'daniel.wilson@example.com', '$2a$10$LdPMKT1F0IYLoQmJ4e7yqOh0twfMnWRlzeTVyIJBDG9dMUbLA3AqW'),
+  ('550e8400-e29b-41d4-a716-446655440012', 'Olivia Brown', 'olivia.brown@example.com', '$2a$10$q5XrGZwV1wt2I2J5sWeBCOxjsLmWJq7i27zn1eEpBPrx6Xx.7gSWC'),
+  ('550e8400-e29b-41d4-a716-446655440014', 'James Taylor', 'james.taylor@example.com', '$2a$10$6M9FqJ4mY2mm51eJYl.k3Oz62rr/Qzns1I1vN9pWnqGW9EqnH0oRa'),
+  ('550e8400-e29b-41d4-a716-446655440016', 'Sophia Martinez', 'sophia.martinez@example.com', '$2a$10$dhdI.xIggA0nqIhtWb8v5e0UkzXzVl3hJ7vBdqTnUg2E6j.AMK81q'),
+  ('550e8400-e29b-41d4-a716-446655440018', 'Jacob Anderson', 'jacob.anderson@example.com', '$2a$10$yq3d5M3do.EamVstirWTTOib6h.2wQ0IQt62C5FPOX8yINu1.WWDe'),
+  ('550e8400-e29b-41d4-a716-446655440020', 'Mia Clark', 'mia.clark@example.com', '$2a$10$FOhG2LQCKrEp36Cf2ZSnbuvHqM58zqT47Fq/u4P.3XrkMef2qC94m'); -- password10
 
-/*!40000 ALTER TABLE validadores ENABLE KEYS */;
+/*!40000 ALTER TABLE portalAyuntDB.validadores ENABLE KEYS */;
 UNLOCK TABLES;
 
--- Inserción de datos en la tabla 'ficheros'
+-- Inserción de datos en la tabla 'files'
 
 LOCK TABLES portalAyuntDB.files WRITE;
-/*!40000 ALTER TABLE ficheros DISABLE KEYS */;
+/*!40000 ALTER TABLE portalAyuntDB.files DISABLE KEYS */;
 INSERT INTO portalAyuntDB.files (id, fecha_creacion, titulo, descripcion, tamano, previsualizaciones, descargas, estado, fk_productor, fk_validador)
 VALUES
   ('550e8400-e29b-41d4-a716-446655440000', NOW(), 'File 1', 'Description 1', 10,  500, 1000, 'pendiente', '550e8400-e29b-41d4-a716-446655440001', '550e8400-e29b-41d4-a716-446655440002'),
@@ -127,13 +129,13 @@ VALUES
   ('e7423ef2-1f01-4a5e-9e48-446655440000', NOW(), 'File 9', 'Description 9', 11, 800, 400, 'pendiente', '550e8400-e29b-41d4-a716-446655440017', '550e8400-e29b-41d4-a716-446655440018'),
   ('e7c4f605-8a36-4a07-93d5-446655440000', NOW(), 'File 10', 'Description 10', 4, 450, 200, 'activo', '550e8400-e29b-41d4-a716-446655440019', '550e8400-e29b-41d4-a716-446655440020');
 
-/*!40000 ALTER TABLE ficheros ENABLE KEYS */;
+/*!40000 ALTER TABLE portalAyuntDB.files ENABLE KEYS */;
 UNLOCK TABLES;
 
--- Inserción de datos en la tabla 'fichero_palabrasClave'
-LOCK TABLES fichero_palabrasClave WRITE;
-/*!40000 ALTER TABLE fichero_palabrasClave DISABLE KEYS */;
-INSERT INTO portalAyuntDB.file_palabrasClave (file_id, palabras_clave)
+-- Inserción de datos en la tabla 'file_palabrasClave'
+LOCK TABLES portalAyuntDB.file_palabras_clave WRITE;
+/*!40000 ALTER TABLE portalAyuntDB.file_palabras_clave DISABLE KEYS */;
+INSERT INTO portalAyuntDB.file_palabras_clave (file_id, palabras_clave)
 VALUES
   ('550e8400-e29b-41d4-a716-446655440000', 'keyword1, keyword2'),
   ('c5f86a9f-5c8f-47ad-89f6-446655440000', 'keyword3, keyword4'),

@@ -8,6 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -33,9 +35,11 @@ public class Productor implements Serializable {
     private String nombre;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Estado estado;
 
     @Column(nullable = false)

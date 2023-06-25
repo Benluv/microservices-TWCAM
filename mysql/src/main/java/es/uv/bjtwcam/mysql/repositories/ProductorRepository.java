@@ -20,6 +20,8 @@ public interface ProductorRepository extends JpaRepository<Productor, UUID> {
     Optional<List<Productor>> findAllByTipo(Tipo tipo);
     Optional<List<Productor>> findAllByEstado(Estado estado);
     Optional<List<Productor>> findAllByCuota(Integer cuota);
+    Optional<List<Productor>> findAllByNombreContaining(String name);
+    List<Productor> findAll();
 
     @Query("SELECT p.estado, COUNT(p) FROM Productor p GROUP BY p.estado")
     List<Object[]> countProductorsByEstado();
