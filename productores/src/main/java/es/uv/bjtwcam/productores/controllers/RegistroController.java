@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import es.uv.bjtwcam.productores.domain.Productor;
 import es.uv.bjtwcam.productores.objects.AuthenticatedProductor;
 import es.uv.bjtwcam.productores.objects.ProductorDTO;
-import es.uv.bjtwcam.productores.services.AnalyticsService;
 import es.uv.bjtwcam.productores.services.ProductorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,9 +31,6 @@ public class RegistroController {
     
     @Autowired 
     private ProductorService ps;
-
-    @Autowired
-    AnalyticsService as;
 
     @Autowired
     private RestTemplate template;
@@ -65,8 +61,6 @@ public class RegistroController {
     @Operation(summary="Obtener productor", description="Obtener la informacion de un productor por su id")
     public String getProductor(@PathVariable(name="id") String id) {
         log.info("getProductor: " + id);
-        // Update count of user access
-        as.addUserAccess(id);
         return "Se obtiene el productor: "+ id;
     }
 
