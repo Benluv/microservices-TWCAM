@@ -31,7 +31,7 @@ public class ValidarController {
 	@Autowired
     private RestTemplate template;
 
-    @Value("${validador.productor.url}")
+    @Value("${mysql.validador.url}")
     private String api;
     
 	@GetMapping("status")
@@ -43,9 +43,6 @@ public class ValidarController {
     @Operation(summary="Obtener productor", description="Obtener la informacion de un productor por su id")
     public ResponseEntity<ProductorDTO> getProductor(@PathVariable(name="id") String id) {
 		ResponseEntity<ProductorDTO> response; 
-        if(api == null) {
-            api = "http://localhost:8080/api/v1/productor";
-        }
         try {
             response = template.getForEntity(api+"/"+ id, ProductorDTO.class);
         } 
@@ -74,9 +71,6 @@ public class ValidarController {
     ) {
         List<ProductorDTO> p = new ArrayList<ProductorDTO>();
 		ResponseEntity<List<ProductorDTO>> response; 
-        if(api == null) {
-            api = "http://localhost:8080/api/v1/productor";
-        }
 
         //check if no parameters are passed
         if (id.isBlank() && nif.isBlank() && name.isBlank() && email.isBlank() && type.isBlank() && estado.isBlank() && cuota.isBlank()) {
@@ -263,14 +257,11 @@ public class ValidarController {
         @RequestParam(name = "cuota", required = true) String cuotaAnual
         ) {
             
-        if(api == null) {
-            api = "http://localhost:8080/api/v1/productor/aprobar";
-        }
         ResponseEntity<ProductorDTO> response;    
         log.info("Aprobando productor");
         try {
             response = template.exchange(
-                api + "/" + id + "?cuota=" + cuotaAnual,
+                api + "/aprobar/" + id + "?cuota=" + cuotaAnual,
                 HttpMethod.PUT,
                 null,
                 new ParameterizedTypeReference<ProductorDTO>(){}
@@ -288,9 +279,7 @@ public class ValidarController {
     @PutMapping("/{id}")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor.Se podra actualizar cualquier campo del productor a traves de su identificador")
     public ResponseEntity<ProductorDTO> updateProductor(@PathVariable("id") String id) {
-        if(api == null) {
-            api = "http://localhost:8080/api/v1/productor";
-        }
+        
         ResponseEntity<ProductorDTO> response;
         log.info("Actualizando productor");
         try {
@@ -313,9 +302,6 @@ public class ValidarController {
     @DeleteMapping("/{id}")
     @Operation(summary="Eliminar un productor", description="Se indicara el identificador del productor a eliminar")
     public ResponseEntity<String> deleteProductor(@PathVariable("id") String id) {
-        if(api == null) {
-            api = "http://localhost:8080/api/v1/productor";
-        }
         try {
             template.delete(api + "/" + id);
             return new ResponseEntity<String>("Productor eliminado", HttpStatus.OK);

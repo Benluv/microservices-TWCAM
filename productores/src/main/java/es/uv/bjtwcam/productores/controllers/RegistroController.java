@@ -32,7 +32,7 @@ public class RegistroController {
     @Autowired
     private RestTemplate template;
 
-    @Value("${productores.url}")
+    @Value("${mysql.productor.url}")
     private String api;
 
     @GetMapping("status")
@@ -66,9 +66,6 @@ public class RegistroController {
     public ResponseEntity<Productor> createProductor(@RequestBody Productor productor) {
         
         ResponseEntity<Productor> response; 
-        if(api == null) {
-            api = "http://localhost:3307/api/v1/productor";
-        }
         log.info("creando Productor: " + productor);
         try {
             response = template.postForEntity(api, productor, Productor.class);
@@ -88,9 +85,6 @@ public class RegistroController {
     public ResponseEntity<Productor> modifyUser(@PathVariable("id") String id, @RequestBody ProductorDTO productor) {
         
         ResponseEntity<Productor> response;
-        if(api == null) {
-            api = "http://localhost:3307/api/v1/productor";
-        }
         try {
             response = template.exchange(
                 api + "/" + id, 
