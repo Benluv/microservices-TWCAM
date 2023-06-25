@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.uv.bjtwcam.mysql.domain.Productor;
 import es.uv.bjtwcam.mysql.services.ProductorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -36,6 +37,7 @@ public class ValidarController {
 	}
 
     @GetMapping({"/{id}"})
+	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Obtener productor", description="Obtener la informacion de un productor por su id")
     public ResponseEntity<Productor> getProductor(@PathVariable(name="id") String id) {
         
@@ -55,6 +57,7 @@ public class ValidarController {
     }
 
     @GetMapping
+	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Obtener listado de productores", description="Obtener listado de productores, si no se indica ningun filtro se devuelven todos")
     public ResponseEntity<List<Productor>> getProductores(
         @RequestParam(name = "id", required = false) String id,
@@ -167,6 +170,7 @@ public class ValidarController {
     }
 
     @PutMapping("/aprobar/{id}")
+	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Aprobar un nuevo productor", description="Se indicara el identificador del productor y la cuota anual")
     public ResponseEntity<Productor> aprobarProductor(
         @PathVariable("id") String id,
@@ -199,6 +203,7 @@ public class ValidarController {
     }
     
     @PutMapping("/{id}")
+	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Modificar productor", description="Modificacion de la informacion del productor.Se podra actualizar cualquier campo del productor a traves de su identificador")
     public ResponseEntity<Productor> updateProductor(@PathVariable("id") String id) {
         //check if id exists
@@ -219,6 +224,7 @@ public class ValidarController {
     }
 
     @DeleteMapping("/{id}")
+	@SecurityRequirement(name = "Bearer Authentication")
     @Operation(summary="Eliminar un productor", description="Se indicara el identificador del productor a eliminar")
     public ResponseEntity<String> deleteProductor(@PathVariable("id") String id) {
         //check if id exists
