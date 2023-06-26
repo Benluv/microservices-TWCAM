@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import es.uv.bjtwcam.mysql.domain.Productor;
 import es.uv.bjtwcam.mysql.services.ProductorService;
@@ -21,8 +22,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 
 
-@RequestMapping("/api/v1/validador")
 @Slf4j
+@RequestMapping("/api/v1/validador")
 public class ValidarController {
 
     @Autowired

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import es.uv.bjtwcam.mysql.domain.Productor;
@@ -42,8 +42,8 @@ public class ProductorService implements ProductorServiceInterface {
             return null;
 
         try{
-            String pass = new BCryptPasswordEncoder().encode(productor.getPassword());
-            productor.setPassword(pass);
+            // String pass = new BCryptPasswordEncoder().encode(productor.getPassword());
+            productor.setPassword(productor.getPassword());
         } catch(Exception e){
             return null;
         }
@@ -128,8 +128,8 @@ public class ProductorService implements ProductorServiceInterface {
 
         // Actualizar los campos modificables del usuario existente
         productor.setEmail(updatedProductor.getEmail());
-        String pass = new BCryptPasswordEncoder().encode(updatedProductor.getPassword());
-        productor.setPassword(pass);
+        // String pass = new BCryptPasswordEncoder().encode(updatedProductor.getPassword());
+        productor.setPassword(updatedProductor.getPassword());
         productor.setNombre(updatedProductor.getNombre());
         productor.setCuota(updatedProductor.getCuota());
         productor.setNif(updatedProductor.getNif());
