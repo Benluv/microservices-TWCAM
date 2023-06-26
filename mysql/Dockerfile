@@ -1,0 +1,9 @@
+FROM bellsoft/liberica-openjdk-alpine:latest
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+ARG JAR_FILE=target/mysql-0.0.1-SNAPSHOT.jar
+COPY ${JAR_FILE} mysql.jar
+ENTRYPOINT ["java", "-jar", "mysql.jar"]
+
+EXPOSE 3307
+
