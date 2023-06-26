@@ -3,44 +3,42 @@ package es.uv.bjtwcam.consumidores.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.Optional;
 
-import es.uv.bjtwcam.consumidores.services.ConsumidorService;
-import es.uv.bjtwcam.productores.domain.Productor;
+import es.uv.bjtwcam.consumidores.objects.FileMongoDTO;
+import es.uv.bjtwcam.consumidores.objects.FileSqlDTO;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/consumidor")
 public class ConsultarController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConsultarController.class);
 
-    @Autowired
-    private ConsumidorService cs;
-
-    @GetMapping("consumidor/file/{palabra clave}")
-    public Optional<Productor> getFileByWord() {
+    @GetMapping("file/{palabra clave}")
+    public ResponseEntity<FileSqlDTO> getFileByWord() {
         LOGGER.debug("Obteniendo productores");
-        return this.cs.getFileByWord();
+        return new ResponseEntity<FileSqlDTO>(new FileSqlDTO(),HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @GetMapping("consumidor/{nombre productor}")
-    public Optional<Productor> getFileByProd() {
+    @GetMapping("{nombre productor}")
+    public ResponseEntity<FileSqlDTO> getFileByProd() {
         LOGGER.debug("Obteniendo productores");
-        return this.cs.getFileByProd();
+        return new ResponseEntity<FileSqlDTO>(new FileSqlDTO(),HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @GetMapping("consumidor/file/{id}?full=false")
-    public Optional<Productor> getPrevFile() {
+    @GetMapping("file/{id}?full=false")
+    public ResponseEntity<FileMongoDTO> getPrevFile() {
         LOGGER.debug("Obteniendo previsualizacion de fichero");
-        return this.cs.getPrevFile();
+        return new ResponseEntity<FileMongoDTO>(new FileMongoDTO(),HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @GetMapping("consumidor/file/{id}?full=true")
-    public Optional<Productor> getFile() {
+    @GetMapping("file/{id}?full=true")
+    public ResponseEntity<FileMongoDTO> getFile() {
         LOGGER.debug("Obteniendo fichero completo");
-        return this.cs.getFile();
+        return new ResponseEntity<FileMongoDTO>(new FileMongoDTO(),HttpStatus.NOT_IMPLEMENTED);
     }
 }
 
