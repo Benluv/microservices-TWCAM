@@ -10,8 +10,6 @@ import es.uv.bjtwcam.mongo.domain.File;
 @Repository
 public interface FileMongoRepository extends MongoRepository<File, String> {
     
-    List<File> findByDataTipoAndDataMetadataFormat(String tipo, String format);
-    
     @Query(value = "{$match: {_id: ?0}}, {$project: {data: {$slice: ['$data', 10]}}}")
     List<Object> findFirst10LinesById(String id);
 }
