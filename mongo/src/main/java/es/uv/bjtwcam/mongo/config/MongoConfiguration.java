@@ -19,11 +19,11 @@ public class MongoConfiguration extends AbstractMongoClientConfiguration {
     @Value("${spring.data.mongodb.database}")
     private String mongoDatabase;
 
-    @Value("${spring.data.mongodb.username}")
-    private String username;
+    // @Value("${spring.data.mongodb.username}")
+    // private String username;
 
-    @Value("${spring.data.mongodb.password}")
-    private String password;
+    // @Value("${spring.data.mongodb.password}")
+    // private String password;
 
     @Override
     protected String getDatabaseName() {
@@ -33,10 +33,10 @@ public class MongoConfiguration extends AbstractMongoClientConfiguration {
     @Override
     public MongoClient mongoClient() {
         ConnectionString connectionString = new ConnectionString(mongoUri);
-        MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(username, mongoDatabase, password.toCharArray());
+        // MongoCredential mongoCredential = MongoCredential.createScramSha1Credential(username, mongoDatabase, password.toCharArray());
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
-                .credential(mongoCredential)
+                // .credential(mongoCredential)
                 .build();
         return MongoClients.create(mongoClientSettings);
     }

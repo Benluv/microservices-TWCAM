@@ -24,6 +24,14 @@
 			<properties>
 				<spring.profiles.active>local</spring.profiles.active>
 			</properties>
+			<dependencies>
+				<!-- <dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-docker-compose</artifactId>
+					<scope>runtime</scope>
+					<optional>true</optional>
+				</dependency> -->
+			</dependencies>
 		</profile>
 		<profile>
 			<id>cloud</id>
@@ -46,13 +54,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-docker-compose</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

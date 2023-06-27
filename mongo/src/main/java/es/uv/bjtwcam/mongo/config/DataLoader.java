@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-/* Para cargar los datos del fichero data.json en la base de datos MongoDB
+/* Para cargar los datos del fichero data.json en la base de datos MongoDB */
 @Component
 public class DataLoader {
 
@@ -38,4 +38,3 @@ public class DataLoader {
         }
     }
 }
-*/
